@@ -7,8 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -761,7 +760,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-inner">
-    <a href="/" class="logo">
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false" class="logo">
       <div class="logo-icon" style="background:#fff;border:1.5px solid var(--border);overflow:hidden;padding:2px"><img src="658928668_122160244664684255_6132267264759320128_n.webp" style="width:100%;height:100%;object-fit:contain;display:block"></div>
       <span class="logo-text">Nippon <em>Tokutei</em></span>
     </a>
@@ -995,7 +994,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       <div class="sec-label" style="color:rgba(255,255,255,.6)">Liên hệ ngay</div>
       <h2>Hỗ trợ, giải đáp cụ thể mọi thông tin về các đơn hàng</h2>
       <a href="https://www.facebook.com/trungphamtokutei" target="_blank" class="btn btn-dark btn-lg" style="font-size:18px;padding:14px 32px;margin-bottom:16px">
-        Liên hệ Facebook
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;vertical-align:middle"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>Liên hệ Facebook
       </a>
     </div>
   </div>
@@ -1006,7 +1005,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   <div style="max-width:1120px;margin:0 auto;padding:0 24px">
     <div class="ft-grid">
       <div>
-        <a href="/" class="logo"><div class="logo-icon" style="background:#fff;border:1.5px solid rgba(255,255,255,.3);overflow:hidden;padding:2px"><img src="658928668_122160244664684255_6132267264759320128_n.webp" style="width:100%;height:100%;object-fit:contain;display:block"></div><span class="logo-text" style="color:#fff">Nippon <em>Tokutei</em></span></a>
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false" class="logo"><div class="logo-icon" style="background:#fff;border:1.5px solid rgba(255,255,255,.3);overflow:hidden;padding:2px"><img src="658928668_122160244664684255_6132267264759320128_n.webp" style="width:100%;height:100%;object-fit:contain;display:block"></div><span class="logo-text" style="color:#fff">Nippon <em>Tokutei</em></span></a>
         <p class="ft-tagline">Việc làm visa đặc định kỹ năng được tuyển chọn kỹ càng. Tư vấn trực tiếp — không qua trung gian.</p>
         <button onclick="openZaloQR()" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#0068FF;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer">Liên hệ Zalo</button>
       </div>
@@ -1354,7 +1353,8 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
     <div class="apply-hd">
       <div>
         <h3>📝 Đơn ứng tuyển</h3>
-        <p id="applyJobTitle">Điền đầy đủ thông tin bên dưới</p>
+        <p id="applyJobTitle" style="font-weight:700;color:var(--text-1);font-size:14px">Điền đầy đủ thông tin bên dưới</p>
+        <p id="applyJobCity" style="font-size:13px;color:var(--text-3);margin-top:2px"></p>
       </div>
       <button class="modal-close" onclick="closeApply()">✕</button>
     </div>
@@ -1374,7 +1374,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
         <div class="af"><label>9. Khi nào có thể bắt đầu đi làm?</label><input id="af-start" type="text" placeholder="VD: Tháng 8/2025 hoặc Ngay lập tức"></div>
         <div class="af"><label>10. Thời gian có thể check tiếng (phỏng vấn)</label><input id="af-check" type="text" placeholder="VD: Chiều T2–T6, từ 19h"></div>
         <div class="af"><label>11. Thông tin gia đình (Họ tên — Tuổi — Nghề nghiệp)</label><textarea id="af-family" rows="3" placeholder="VD: Nguyễn Thị B — 48 tuổi — Nông dân&#10;Nguyễn Văn C — 22 tuổi — Sinh viên"></textarea></div>
-        <div class="af"><label>12. Trường học cấp cuối cùng &amp; Niên khóa</label><input id="af-school" type="text" placeholder="VD: THPT Nguyễn Huệ — 2018~2021"></div>
+        <div class="af"><label>12. Trường học cấp cuối cùng &amp; Niên khóa, TÊN TỈNH</label><input id="af-school" type="text" placeholder="VD: THPT Nguyễn Huệ — 2018~2021, Hà Nội"></div>
       </div>
 
       <div class="apply-section">
@@ -1406,8 +1406,8 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       </div>
 
       <div class="apply-section">
-        <div class="asec-title">Giấy tờ — gửi ảnh qua Zalo sau</div>
-        <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;line-height:1.65">Sau khi gửi thông tin, chụp ảnh <strong>rõ nét, ngay ngắn, đủ sáng</strong> và gửi thêm qua Zalo:</p>
+        <div class="asec-title">Giấy tờ - Gửi ảnh qua Facebook hoặc Zalo sau</div>
+        <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;line-height:1.65">Chụp ảnh <strong>rõ nét, ngay ngắn, đủ sáng</strong> (Sơ yếu lý lịch gốc và Giấy kết thúc TTS 3 năm chưa có thì để sau)</p>
         <ul class="docs-list">
           <li>Thẻ ngoại kiều <strong>2 mặt</strong></li>
           <li>Sơ yếu lý lịch gốc</li>
@@ -1415,23 +1415,25 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
           <li>Bằng senmonkyu hoặc giấy đánh giá kỹ năng</li>
           <li>Ảnh hồ sơ (ảnh thẻ) — mặt tươi tỉnh, đủ sáng</li>
           <li>Bằng tiếng Nhật, chứng chỉ Tokutei… (nếu có)</li>
+          <li>Ảnh hộ chiếu trang có thông tin và trang có Visa, tem xuất nhập cảnh</li>
+          <li>Tất cả các tờ shiteisho (nếu có)</li>
         </ul>
       </div>
 
     </div>
 
     <div class="apply-ft" id="applyFt">
-      <button class="apply-submit" onclick="submitApply()">Gửi thông tin &amp; Mở Zalo →</button>
+      <button class="apply-submit" onclick="submitApply()">Gửi thông tin ứng tuyển</button>
     </div>
 
     <div class="apply-done" id="applyDone">
       <div class="done-ico">✅</div>
       <h3>Đã sao chép xong!</h3>
-      <p>Thông tin đã copy vào clipboard.<br>Nhấn <strong>"Mở Zalo"</strong> rồi <strong>dán (paste)</strong> vào chat với Trung Phạm.<br>Nhớ gửi kèm ảnh giấy tờ qua Zalo nhé.</p>
+      <p>Nhấn <strong>"Mở Zalo/Facebook"</strong> rồi <strong>dán (paste)</strong> vào chat với tuyển dụng</p>
       <div class="copy-box" id="applyPreview"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-        <a id="done-zalo" href="https://zalo.me/0386887691" target="_blank" class="modal-cta" style="background:#0068FF">💬 Mở Zalo</a>
-        <a id="done-fb"   href="https://www.facebook.com/trungphamtokutei" target="_blank" class="modal-cta" style="background:#1877F2">📘 Facebook</a>
+        <button id="done-zalo" onclick="openZaloQR()" class="modal-cta" style="background:#0068FF;border:none;cursor:pointer;font-family:inherit;font-size:15px">💬 Mở Zalo</button>
+        <a id="done-fb"   href="https://www.facebook.com/trungphamtokutei" target="_blank" class="modal-cta" style="background:#1877F2"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg> Facebook</a>
       </div>
       <button onclick="closeApply()" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-size:13px;cursor:pointer;color:var(--text-2)">Đóng</button>
     </div>
@@ -1460,17 +1462,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
     <div class="auth-card-body">
       <!-- LOGIN FORM -->
       <div class="auth-form on" id="formLogin">
-        <div class="auth-social">
-          <button class="auth-social-btn" onclick="loginGoogle()">
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-            Google
-          </button>
-          <button class="auth-social-btn" onclick="loginFacebook()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-            Facebook
-          </button>
-        </div>
-        <div class="auth-divider">hoặc</div>
         <input class="auth-input" id="loginEmail" type="email" placeholder="Email của bạn">
         <input class="auth-input" id="loginPassword" type="password" placeholder="Mật khẩu" onkeydown="if(event.key==='Enter')submitLogin()">
         <div class="auth-err" id="loginErr"></div>
@@ -1478,17 +1469,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       </div>
       <!-- REGISTER FORM -->
       <div class="auth-form" id="formRegister">
-        <div class="auth-social">
-          <button class="auth-social-btn" onclick="loginGoogle()">
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-            Google
-          </button>
-          <button class="auth-social-btn" onclick="loginFacebook()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-            Facebook
-          </button>
-        </div>
-        <div class="auth-divider">hoặc</div>
         <input class="auth-input" id="regName" type="text" placeholder="Họ và tên">
         <input class="auth-input" id="regEmail" type="email" placeholder="Email của bạn">
         <input class="auth-input" id="regPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" onkeydown="if(event.key==='Enter')submitRegister()">
@@ -1526,6 +1506,24 @@ function switchTab(type) {
 
 // ── JOB DATA ──
 const STORE_KEY  = 'tp_tokutei_jobs';
+
+// ── SUPABASE ──
+const SB_URL  = 'https://mfwxijsrrtfqmcmscocj.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1md3hpanNycnRmcW1jbXNjb2NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDk3MzgsImV4cCI6MjA5NDE4NTczOH0.2tGumJw0n1nVidFah-xp7WC96KYlla3BmrTVGGadsuo';
+const sb = window.supabase.createClient(SB_URL, SB_ANON);
+
+async function syncFromSupabase() {
+  try {
+    const { data, error } = await sb.from('jobs').select('*').order('updatedAt', { ascending: false });
+    if (data && !error) {
+      localStorage.setItem(STORE_KEY, JSON.stringify(data));
+      updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs(); updateCatCounts();
+      if(document.getElementById('adminOverlay')?.classList.contains('open')) {
+        renderAdminJobs(); renderAdminSideStats();
+      }
+    }
+  } catch(e) { /* offline — dùng cache localStorage */ }
+}
 const SEED_JOBS = [{"id":"mp2vkfxjxguo","type":"both","title":"Làm bánh mỳ","category":"🍱 Chế biến thực phẩm","city":"Osaka","salary":"20man","count":5,"gender":"Nam","japanese":"N4以上","workHours":"","daysOff":"","overtime":"","raise":"","bonus":"","housing":"","desc":"","status":"active","updatedAt":"2026-05-12T16:58:42.727Z"},{"id":"mp2u5ouc4568","type":"kysis","title":"Kỹ sư xây dựng","category":"🏗️ Xây dựng / Kiến trúc","city":"Mie - Komono","salary":"1300 Y/H","count":2,"gender":"Nam","japanese":"N4以上","workHours":"8:00 - 17:00","daysOff":"Theo lịch của công ty","overtime":"10-45h","raise":"Có","bonus":"Không","housing":"2man/tháng","desc":"Vệ sinh sửa chữa giàn giáo","status":"active","updatedAt":"2026-05-12T16:19:14.820Z"},{"id":"mp2tj8y8rzpt","type":"viet","title":"Làm bánh mochi","category":"🍱 Chế biến thực phẩm","city":"Tokyo","salary":"","count":6,"gender":"Nam","japanese":"N5以上","workHours":"","daysOff":"","overtime":"","raise":"","bonus":"","housing":"","desc":"","status":"active","updatedAt":"2026-05-12T16:01:47.792Z"},{"id":"mp2ka8qloryz","type":"nhat","title":"gdfgd","category":"🏗️ Xây dựng","city":"fdgdf","salary":"","count":0,"gender":"","japanese":"N4以上","workHours":"","daysOff":"","overtime":"","raise":"","bonus":"","housing":"","desc":"","status":"active","updatedAt":"2026-05-12T11:42:51.069Z"},{"id":"mp2ka4rqtwwx","type":"nhat","title":"retgfd","category":"🏗️ Xây dựng","city":"AAA","salary":"","count":0,"gender":"","japanese":"N4以上","workHours":"","daysOff":"","overtime":"","raise":"","bonus":"","housing":"","desc":"","status":"active","updatedAt":"2026-05-12T11:42:45.926Z"},{"id":"mp2k9ym4mnxs","type":"nhat","title":"122","category":"🌾 Nông nghiệp","city":"AA","salary":"","count":0,"gender":"","japanese":"N4以上","workHours":"","daysOff":"","overtime":"","raise":"","bonus":"","housing":"","desc":"","status":"active","updatedAt":"2026-05-12T11:42:37.948Z"},{"id":"mp2k9ih0679v","type":"viet","title":"1111","category":"🌾 Nông nghiệp","city":"Aichi","salary":"","count":0,"gender":"","japanese":"N5以上","workHours":"","daysOff":"","overtime":"","raise":"","bonus":"","housing":"","desc":"","status":"active","updatedAt":"2026-05-12T11:42:17.028Z"},{"id":"mp2bgskkpbj1","type":"nhat","title":"Làm bánh Pizza","category":"🍱 Chế biến thực phẩm","city":"Yamagata - Yonezawa","salary":"1100y/h","count":5,"gender":"Nam","japanese":"N4以上","workHours":"8:00 - 17:00","daysOff":"Theo lịch của công ty","overtime":"40h/tháng","raise":"Có","bonus":"~10man","company":"","housing":"2man","desc":"Làm việc tại dây chuyền chế biến thực phẩm đông lạnh. Bao ký túc xá, 2 bữa/ngày.","status":"active","updatedAt":"2026-05-12T08:07:16.258Z"},{"id":"mp2bgsklo2sk","type":"viet","title":"Công nhân xây dựng (型枠工)","category":"🏗️ Xây dựng","city":"Osaka 大阪","salMin":200000,"salMax":240000,"japanese":"N4以上","company":"Osaka Build Corp.","desc":"Gia công cốp pha, lắp dựng khung bê tông. OT được trả 125%.","status":"active"},{"id":"mp2bgskl9otm","type":"nhat","title":"Điều dưỡng viên tại cơ sở chăm sóc người già","category":"💊 Điều dưỡng / Hộ lý","city":"Hokkaido 北海道","salMin":210000,"salMax":250000,"japanese":"N3以上","company":"Sapporo Care Center","desc":"Chăm sóc người cao tuổi, hỗ trợ sinh hoạt hàng ngày. Không cần kinh nghiệm.","status":"active"},{"id":"mp2bgsklr9ql","type":"nhat","title":"Thợ hàn công nghiệp (溶接)","category":"🏗️ Xây dựng","city":"Kanagawa 神奈川","salMin":230000,"salMax":280000,"japanese":"N4以上","company":"Kawasaki Steel Works","desc":"Hàn kết cấu thép tại xưởng. Có chứng chỉ hàn được ưu tiên.","status":"active"}];
 if (!localStorage.getItem(STORE_KEY)) { localStorage.setItem(STORE_KEY, JSON.stringify(SEED_JOBS)); }
 const SAVED_KEY  = 'tp_saved_jobs';
@@ -1789,16 +1787,9 @@ function openJob(id) {
         <div class="modal-desc" style="margin-bottom:16px">${j.desc}</div>
       `:''}
 
-      <div style="text-align:center;font-size:13px;color:var(--text-3);margin-bottom:10px">
-        ${j.type==='kysis'?'🆓 0 đồng cho ứng viên':j.type==='nhat'?'🆓 0 đồng cho ứng viên':'💰 Phí thấp, rõ ràng từ đầu'} · Tư vấn miễn phí
-      </div>
-      <button onclick="openApplyForm('${j.id}')" class="modal-cta" style="border:none;cursor:pointer;font-family:inherit;font-size:15px;margin-bottom:10px;width:100%">
+      <button onclick="openApplyForm('${j.id}')" class="modal-cta" style="border:none;cursor:pointer;font-family:inherit;font-size:15px;width:100%;margin-bottom:0">
         📝 Điền đơn ứng tuyển
       </button>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <a href="${ZALO_URL}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;background:#0068FF;color:#fff;font-size:13px;font-weight:700;text-decoration:none;border-radius:8px"><svg width="20" height="20" viewBox="0 0 44 44" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M22 3C11.51 3 3 10.85 3 20.5c0 5.26 2.62 9.97 6.75 13.13l-1.5 5.37 5.9-2.95A20.6 20.6 0 0022 38c10.49 0 19-7.85 19-17.5S32.49 3 22 3zm0 31.8a17.3 17.3 0 01-5.9-1.02l-3.7 1.85.9-3.2A14.2 14.2 0 017.4 20.5C7.4 12.04 13.93 5.2 22 5.2s14.6 6.84 14.6 15.3-6.53 15.3-14.6 15.3z"/></svg>Zalo</a>
-        <a href="${FB_URL}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;background:#1877F2;color:#fff;font-size:13px;font-weight:700;text-decoration:none;border-radius:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>Facebook</a>
-      </div>
     </div>
   `;
   document.getElementById('jobModal').classList.add('open');
@@ -1821,6 +1812,7 @@ function openApplyForm(jobId) {
   applyJobId = jobId;
   const j = getJobs().find(x => x.id === jobId);
   document.getElementById('applyJobTitle').textContent = j ? j.title : 'Điền đầy đủ thông tin';
+  document.getElementById('applyJobCity').textContent = j && j.city ? '📍 ' + j.city : '';
   document.getElementById('applyScroll').style.display = '';
   document.getElementById('applyFt').style.display = '';
   document.getElementById('applyDone').classList.remove('show');
@@ -1841,7 +1833,7 @@ function submitApply() {
   if(!name) { alert('Vui lòng nhập họ tên để tiếp tục.'); return; }
 
   const j = applyJobId ? getJobs().find(x => x.id === applyJobId) : null;
-  const jobLine = j ? `\n📌 Vị trí: ${j.title} (${j.type==='viet'?'Đầu Việt':j.type==='kysis'?'Kỹ sư':j.type==='both'?'Đầu Việt + Đầu Nhật':'Đầu Nhật'})` : '';
+  const jobLine = j ? `\n📌 Vị trí: ${j.title} (${j.type==='viet'?'Đầu Việt':j.type==='kysis'?'Kỹ sư':j.type==='both'?'Đầu Việt + Đầu Nhật':'Đầu Nhật'})${j.city ? `\n📍 Địa điểm: ${j.city}` : ''}` : '';
 
   const text =
 `♻️ ĐƠN ỨNG TUYỂN TOKUTEI${jobLine}
@@ -1877,7 +1869,7 @@ QUÁ TRÌNH LÀM VIỆC
   Nghiệp đoàn: ${g('af-tok-nd')}
   Nội dung: ${g('af-tok-job')}
 ━━━━━━━━━━━━━━━━━━
-📎 Sẽ gửi ảnh giấy tờ qua Zalo.`;
+📎 Sẽ gửi ảnh giấy tờ qua Facebook/Zalo.`;
 
   navigator.clipboard.writeText(text).catch(() => {});
   document.getElementById('applyPreview').textContent = text;
@@ -1891,9 +1883,6 @@ QUÁ TRÌNH LÀM VIỆC
 // ── AUTH SYSTEM ──
 const AUTH_USERS_KEY = 'tp_auth_users';
 const AUTH_USER_KEY  = 'tp_current_user';
-// Thay 2 giá trị này bằng Client ID thật từ Google Console và Facebook Developers
-const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
-const FB_APP_ID        = 'YOUR_FB_APP_ID';
 
 function getUsers() { try { return JSON.parse(localStorage.getItem(AUTH_USERS_KEY)||'[]'); } catch(e){return[];} }
 function saveUsers(u) { localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(u)); }
@@ -1917,7 +1906,7 @@ function switchAuthTab(tab) {
   document.getElementById('formRegister').classList.toggle('on', tab==='register');
 }
 
-function submitLogin() {
+async function submitLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPassword').value;
   const err   = document.getElementById('loginErr');
@@ -1926,6 +1915,10 @@ function submitLogin() {
   const user  = users.find(u => u.email===email && u.password===btoa(pass));
   if(!user) { showErr(err,'Email hoặc mật khẩu không đúng'); return; }
   err.classList.remove('show');
+  if(email === ADMIN_EMAIL) {
+    const { error: sbErr } = await sb.auth.signInWithPassword({ email, password: pass });
+    if(sbErr) { showErr(err, 'Lỗi đăng nhập Supabase: ' + sbErr.message); return; }
+  }
   loginSuccess({name:user.name, email:user.email, avatar:user.avatar||null, provider:'email'});
 }
 
@@ -1944,43 +1937,22 @@ function submitRegister() {
   loginSuccess({name, email, avatar:null, provider:'email'});
 }
 
-function loginGoogle() {
-  if(typeof google === 'undefined') { alert('Google SDK chưa tải. Kiểm tra kết nối internet.'); return; }
-  google.accounts.id.initialize({
-    client_id: GOOGLE_CLIENT_ID,
-    callback: function(resp) {
-      const payload = JSON.parse(atob(resp.credential.split('.')[1]));
-      loginSuccess({name:payload.name, email:payload.email, avatar:payload.picture, provider:'google'});
-    }
-  });
-  google.accounts.id.prompt();
-}
-
-function loginFacebook() {
-  if(typeof FB === 'undefined') { alert('Facebook SDK chưa tải. Kiểm tra kết nối internet.'); return; }
-  FB.login(function(resp) {
-    if(resp.authResponse) {
-      FB.api('/me',{fields:'name,email,picture.width(200)'},function(user){
-        loginSuccess({name:user.name,email:user.email||'',avatar:user.picture?.data?.url||null,provider:'facebook'});
-      });
-    }
-  },{scope:'public_profile,email'});
-}
 
 function loginSuccess(user) {
   saveCurrentUser(user);
   closeAuth();
   renderNavUser(user);
-  renderJobs();
+  syncFromSupabase(); // admin sẽ lấy được tất cả jobs sau khi đăng nhập
   updateSavedCount();
 }
 
 function logout() {
   localStorage.removeItem(AUTH_USER_KEY);
+  sb.auth.signOut();
   document.getElementById('navRight').style.display = 'flex';
   document.getElementById('navUser').style.display = 'none';
   document.getElementById('userDropdown').classList.remove('open');
-  renderJobs();
+  syncFromSupabase(); // sau logout chỉ thấy job active
   updateSavedCount();
 }
 
@@ -2386,15 +2358,17 @@ function adminResetJobForm() {
 
 function adminEditJob(id) { adminNav('jobs-form', id); }
 
-function adminDeleteJob(id) {
+async function adminDeleteJob(id) {
   if(!confirm('Xoá tin tuyển dụng này?')) return;
+  const { error } = await sb.from('jobs').delete().eq('id', id);
+  if(error) { alert('Lỗi xóa: ' + error.message); return; }
   saveJobs(getJobs().filter(j => j.id !== id));
   renderAdminJobs();
   renderAdminSideStats();
   updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs();
 }
 
-function adminSaveJob() {
+async function adminSaveJob() {
   const title = document.getElementById('ajf-title').value.trim();
   const type  = document.getElementById('ajf-type').value;
   const category = document.getElementById('ajf-cat').value;
@@ -2404,7 +2378,7 @@ function adminSaveJob() {
     city:      document.getElementById('ajf-city').value.trim(),
     salary:    document.getElementById('ajf-salary').value.trim(),
     japanese:  document.getElementById('ajf-japanese').value.trim(),
-    count:     document.getElementById('ajf-count').value.trim(),
+    count:     parseInt(document.getElementById('ajf-count').value)||0,
     gender:    document.getElementById('ajf-gender').value,
     workHours: document.getElementById('ajf-workHours').value.trim(),
     daysOff:   document.getElementById('ajf-daysOff').value.trim(),
@@ -2414,13 +2388,18 @@ function adminSaveJob() {
     housing:   document.getElementById('ajf-housing').value.trim(),
     desc:      document.getElementById('ajf-desc').value.trim(),
     status:    document.getElementById('ajf-status').value,
+    updatedAt: new Date().toISOString(),
   };
+  const id = adminJobEditId || 'job_' + Date.now();
+  const sbJob = { id, ...job };
+  const { error } = await sb.from('jobs').upsert(sbJob);
+  if(error) { alert('Lỗi lưu: ' + error.message); return; }
   const jobs = getJobs();
   if(adminJobEditId) {
     const idx = jobs.findIndex(j => j.id === adminJobEditId);
-    if(idx >= 0) jobs[idx] = {...jobs[idx], ...job};
+    if(idx >= 0) jobs[idx] = {...jobs[idx], ...sbJob};
   } else {
-    jobs.unshift({id: 'job_' + Date.now(), ...job});
+    jobs.unshift(sbJob);
   }
   saveJobs(jobs);
   renderAdminSideStats();
@@ -2522,10 +2501,6 @@ function adminSaveArticle() {
   if(document.getElementById('artsOverlay').classList.contains('open')) renderArticlesPanel();
 }
 
-// Init Facebook SDK
-window.fbAsyncInit = function() {
-  FB.init({ appId: FB_APP_ID, cookie:true, xfbml:true, version:'v19.0' });
-};
 
 // Init
 (function loadSite() {
@@ -2540,6 +2515,13 @@ window.fbAsyncInit = function() {
   // Articles module
   initSampleArticles();
   renderArticlePreview();
+  // Supabase: load jobs + real-time
+  syncFromSupabase();
+  sb.channel('jobs_rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'jobs' }, () => {
+      syncFromSupabase();
+    })
+    .subscribe();
 })();
 </script>
 
@@ -2563,6 +2545,36 @@ function closeZaloQR() {
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeZaloQR(); });
+</script>
+
+<!-- CHAT VỚI ADMIN — FLOATING BUTTON -->
+<div id="chatFloatWrap" style="position:fixed;bottom:28px;right:22px;z-index:8888;display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+  <div id="chatFloatMenu" style="display:none;flex-direction:column;gap:8px;align-items:flex-end">
+    <a href="https://www.facebook.com/trungphamtokutei" target="_blank" onclick="closeChatFloat()" style="display:flex;align-items:center;gap:9px;background:#1877F2;color:#fff;padding:10px 18px;border-radius:50px;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 4px 18px rgba(24,119,242,.4);white-space:nowrap;transition:transform .15s" onmouseenter="this.style.transform='translateY(-2px)'" onmouseleave="this.style.transform=''">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </a>
+    <button onclick="closeChatFloat();openZaloQR()" style="display:flex;align-items:center;gap:9px;background:#0068FF;color:#fff;padding:10px 18px;border-radius:50px;font-size:13px;font-weight:600;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(0,104,255,.4);white-space:nowrap;font-family:inherit;transition:transform .15s" onmouseenter="this.style.transform='translateY(-2px)'" onmouseleave="this.style.transform=''">
+      <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.044 2 15.5c0 4.197 2.012 7.94 5.152 10.437L6 30l4.34-2.26C11.493 28.226 13.706 28.5 16 28.5c7.732 0 14-6.044 14-13.5S23.732 2 16 2zm1.5 18.3-3.7-4-7.3 4 8-8.5 3.8 4 7.2-4-8 8.5z"/></svg>
+      Zalo
+    </button>
+  </div>
+  <button onclick="toggleChatFloat()" id="chatFloatBtn" title="Chat với admin" style="width:108px;height:108px;border-radius:50%;background:linear-gradient(135deg,#6C63FF 0%,#E8305A 100%);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 22px rgba(108,99,255,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s" onmouseenter="this.style.transform='scale(1.08)';this.style.boxShadow='0 6px 28px rgba(108,99,255,.65)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 22px rgba(108,99,255,.5)'">
+    <svg id="chatFloatIcon" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+</div>
+<script>
+function toggleChatFloat() {
+  const menu = document.getElementById('chatFloatMenu');
+  const isOpen = menu.style.display === 'flex';
+  menu.style.display = isOpen ? 'none' : 'flex';
+}
+function closeChatFloat() {
+  document.getElementById('chatFloatMenu').style.display = 'none';
+}
+document.addEventListener('click', function(e) {
+  if(!document.getElementById('chatFloatWrap').contains(e.target)) closeChatFloat();
+});
 </script>
 </body>
 </html>
