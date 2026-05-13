@@ -1557,19 +1557,21 @@ document.querySelectorAll('.anim,.stag').forEach(el => io.observe(el));
 
 // Hero mockup tab switcher
 const NGANH_TOKUTEI = [
-  ['🌾 Nông nghiệp','Nông nghiệp'],
-  ['🐟 Ngư nghiệp','Ngư nghiệp'],
-  ['🏗️ Xây dựng','Xây dựng'],
-  ['🚢 Đóng tàu & Cơ khí tàu','Đóng tàu & Cơ khí tàu'],
-  ['🍱 Chế biến thực phẩm','Chế biến thực phẩm'],
-  ['🍽️ Dịch vụ ăn uống','Dịch vụ ăn uống'],
-  ['🚗 Ô tô','Ô tô'],
-  ['✈️ Hàng không','Hàng không'],
-  ['🏨 Lưu trú / Khách sạn','Lưu trú / Khách sạn'],
-  ['🧹 Vệ sinh tòa nhà','Vệ sinh tòa nhà'],
-  ['⚙️ Nhóm ngành 1 (Cơ khí)','Nhóm ngành 1 (Cơ khí)'],
-  ['🔌 Nhóm ngành 2 (Điện tử)','Nhóm ngành 2 (Điện tử)'],
-  ['💊 Điều dưỡng / Hộ lý','Điều dưỡng / Hộ lý'],
+  ['Chế biến thực phẩm','Chế biến thực phẩm'],
+  ['Nhóm ngành 1 (Cơ khí)','Nhóm ngành 1 (Cơ khí)'],
+  ['Nhóm ngành 2 (Điện tử)','Nhóm ngành 2 (Điện tử)'],
+  ['Xây dựng','Xây dựng'],
+  ['Điều dưỡng','Điều dưỡng'],
+  ['Nhà hàng','Nhà hàng'],
+  ['Vệ sinh tòa nhà','Vệ sinh tòa nhà'],
+  ['Bảo dưỡng ô tô','Bảo dưỡng ô tô'],
+  ['Nông nghiệp','Nông nghiệp'],
+  ['Lưu trú / Khách sạn','Lưu trú / Khách sạn'],
+  ['Ngư nghiệp','Ngư nghiệp'],
+  ['Đóng tàu','Đóng tàu'],
+  ['Hàng không','Hàng không'],
+  ['Vận tải','Vận tải'],
+  ['Lâm nghiệp','Lâm nghiệp'],
 ];
 const NGANH_KYSIS = [
   ['💻 IT / Phần mềm','IT / Phần mềm'],
@@ -1733,7 +1735,7 @@ function renderJobs() {
   let jobs = getJobs().filter(j => j.status === 'active');
   if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
   else if(currentGroup === 'tokutei') jobs = jobs.filter(j => j.type !== 'kysis');
-  if(currentCat) jobs = jobs.filter(j => j.category === currentCat);
+  if(currentCat) jobs = jobs.filter(j => (j.category||'').toLowerCase().includes(currentCat.toLowerCase()));
   if(currentPref) {
     const REGIONS={'Hokkaido':['Hokkaido'],'Tohoku':['Aomori','Iwate','Miyagi','Akita','Yamagata','Fukushima'],'Kanto':['Ibaraki','Tochigi','Gunma','Saitama','Chiba','Tokyo','Kanagawa'],'Chubu':['Niigata','Toyama','Ishikawa','Fukui','Yamanashi','Nagano','Shizuoka','Aichi','Mie'],'Kansai':['Shiga','Kyoto','Osaka','Hyogo','Nara','Wakayama'],'Chugoku':['Tottori','Shimane','Okayama','Hiroshima','Yamaguchi'],'Shikoku':['Tokushima','Kagawa','Ehime','Kochi'],'Kyushu':['Fukuoka','Saga','Nagasaki','Kumamoto','Oita','Miyazaki','Kagoshima'],'Okinawa':['Okinawa']};
     const prefList = REGIONS[currentPref];
