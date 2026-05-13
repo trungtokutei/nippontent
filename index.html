@@ -213,7 +213,7 @@ nav.scrolled{box-shadow:var(--sh)}
 .group-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
 .group-card{background:#fff;border:2px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .22s;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:inherit}
 .group-card:hover{border-color:var(--primary);box-shadow:var(--sh2);transform:translateY(-3px)}
-.group-ico{font-size:40px;margin-bottom:4px}
+.group-ico{margin-bottom:4px;display:flex;align-items:center;justify-content:center;color:var(--primary)}.group-ico svg{width:40px;height:40px;stroke-width:1.5}
 .group-name{font-size:22px;font-weight:800;color:var(--text-1)}
 .group-sub{font-size:13px;color:var(--text-3)}
 .group-count{font-size:13px;font-weight:700;color:var(--primary);background:var(--primary-soft);padding:3px 12px;border-radius:100px;margin-top:4px}
@@ -991,13 +991,13 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
     <!-- Cấp 1: chọn nhóm -->
     <div class="group-grid anim" id="groupGrid">
       <button class="group-card" onclick="selectGroup('tokutei')">
-        <div class="group-ico">🏭</div>
+        <div class="group-ico"><i data-lucide="factory"></i></div>
         <div class="group-name">Tokutei</div>
         <div class="group-sub">Thực phẩm · Xây dựng · Điều dưỡng · 17 ngành</div>
         <div class="group-count" id="gc-tokutei">0 việc</div>
       </button>
       <button class="group-card" onclick="selectGroup('kysis')">
-        <div class="group-ico">💻</div>
+        <div class="group-ico"><i data-lucide="laptop"></i></div>
         <div class="group-name">Kỹ sư</div>
         <div class="group-sub">IT · Cơ khí · Điện tử · 13 ngành</div>
         <div class="group-count" id="gc-kysis">0 việc</div>
