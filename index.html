@@ -1901,11 +1901,13 @@ function renderJobs() {
             <span class="status-badge ${isActive?'active':'expired'}">${isActive?'Đang tuyển':'Hết hạn'}</span>
           </div>
           <button class="save-btn${saved?' saved':''}" data-id="${j.id}" onclick="event.stopPropagation();toggleSave('${j.id}')" title="${saved?'Bỏ lưu':'Lưu việc làm'}">${saved?SVG_BOOKMARK_FILL:SVG_BOOKMARK_OUT}</button>
-          <div class="jcard-title">${j.title}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+            <div class="jcard-title">${j.title}</div>
+            ${j.gender?`<span style="font-size:11px;font-weight:600;color:var(--text-3);white-space:nowrap;flex-shrink:0">${j.gender==='Nam'?'👨 Nam':j.gender==='Nữ'||j.gender==='Nữ ưu tiên'?`👩 ${j.gender}`:j.gender==='Không yêu cầu'?'👥 Nam và Nữ':`👥 ${j.gender}`}</span>`:''}
+          </div>
           <div class="jcard-meta">
             ${j.city?`<span>📍 ${j.city}</span>`:''}
             ${j.japanese?`<span>🗣️ ${j.japanese}</span>`:''}
-            ${j.gender?`<span>${j.gender==='Nam'?'👨':j.gender==='Nữ ưu tiên'||j.gender==='Nữ'?'👩':'👥'} ${j.gender}</span>`:''}
           </div>
           <div class="jcard-sal">${sal}</div>
           ${desc?`<div class="jcard-desc">${desc}</div>`:''}
