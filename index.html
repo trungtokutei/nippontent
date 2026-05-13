@@ -1836,7 +1836,7 @@ function renderHeroJobs(filters) {
             <div class="minfo">
               <div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">
                 <div class="mtitle">${j.title}</div>
-                ${j.gender?`<span style="font-size:11px;font-weight:700;color:var(--text-2);white-space:nowrap">${j.gender==='Không yêu cầu'?'Nam và Nữ':j.gender}</span>`:''}
+                ${j.gender?`<span style="font-size:11px;font-weight:700;color:var(--text-1);white-space:nowrap">${j.gender==='Không yêu cầu'?'Nam và Nữ':j.gender}</span>`:''}
               </div>
               <div class="mmeta">${[j.city, j.japanese, sal].filter(Boolean).join(' · ')}</div>
             </div>
