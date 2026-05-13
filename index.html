@@ -692,20 +692,19 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 /* ── ADMIN PANEL (full-screen) ── */
 .admin-overlay{position:fixed;inset:0;z-index:600;display:none}
 .admin-overlay.open{display:flex}
-.admin-sidebar{width:220px;min-width:220px;background:#12132A;display:flex;flex-direction:column;height:100%;overflow-y:auto;flex-shrink:0}
-.admin-sb-top{padding:20px 16px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.07)}
-.admin-avatar{width:44px;height:44px;min-width:44px;border-radius:12px;background:linear-gradient(135deg,#7C3AED 0%,#E8305A 100%);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
+.admin-sidebar{width:240px;min-width:240px;background:#0F1023;display:flex;flex-direction:column;height:100%;overflow-y:auto;flex-shrink:0;border-right:1px solid rgba(255,255,255,.06)}
+.admin-sb-top{padding:22px 18px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.admin-avatar{width:40px;height:40px;min-width:40px;border-radius:10px;background:linear-gradient(135deg,#7C3AED 0%,#E8305A 100%);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0;letter-spacing:-.5px}
 .admin-user-name{font-size:13px;font-weight:700;color:#fff;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.admin-user-role{font-size:11px;color:rgba(255,255,255,.38)}
-.admin-sb-nav{padding:10px 8px;flex:1}
-.admin-nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:600;cursor:pointer;border-radius:10px;font-family:inherit;transition:all .18s;text-align:left;text-decoration:none;margin-bottom:2px;line-height:1.4}
-.admin-nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.85)}
-.admin-nav-item.on{background:rgba(255,255,255,.12);color:#fff}
-.admin-nav-sep{height:1px;background:rgba(255,255,255,.07);margin:8px 4px}
-.admin-sb-stats{padding:14px 16px;border-top:1px solid rgba(255,255,255,.07)}
-.admin-sb-stat{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
-.admin-sb-stat-lbl{font-size:11px;color:rgba(255,255,255,.38)}
-.admin-sb-stat-val{font-size:12px;font-weight:700;color:rgba(255,255,255,.75)}
+.admin-user-role{font-size:11px;color:rgba(255,255,255,.3);margin-top:1px}
+.admin-sb-nav{padding:12px 10px;flex:1;display:flex;flex-direction:column;gap:2px}
+.admin-nav-section-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.22);padding:14px 10px 6px;text-transform:uppercase}
+.admin-nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;background:transparent;color:rgba(255,255,255,.45);font-size:13px;font-weight:600;cursor:pointer;border-radius:9px;font-family:inherit;transition:all .15s;text-align:left;text-decoration:none;line-height:1.3}
+.admin-nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9)}
+.admin-nav-item.on{background:rgba(108,99,255,.25);color:#A78BFA;border-left:2px solid #7C3AED}
+.admin-nav-item.on svg{opacity:1}
+.admin-nav-sep{height:1px;background:rgba(255,255,255,.06);margin:6px 2px}
+.admin-sb-stats{display:none}
 .admin-main{flex:1;overflow-y:auto;background:#EFEFF4;min-width:0}
 .admin-view{display:none;padding:28px 32px;min-height:100%}
 .admin-view.on{display:block}
@@ -753,8 +752,8 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .admin-save-btn{display:inline-flex;align-items:center;gap:6px;padding:11px 24px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s}
 .admin-save-btn:hover{background:#2420c8}
 .admin-cancel-btn{padding:11px 20px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--text-2)}
-.admin-logout-btn{display:flex;align-items:center;gap:10px;width:100%;padding:12px 20px;border:none;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:rgba(255,255,255,.4);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;text-align:left}
-.admin-logout-btn:hover{color:#E8305A;background:rgba(232,48,90,.08)}
+.admin-logout-btn{display:flex;align-items:center;gap:10px;width:100%;padding:14px 20px;border:none;border-top:1px solid rgba(255,255,255,.07);background:transparent;color:rgba(255,255,255,.3);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;text-align:left;letter-spacing:.01em}
+.admin-logout-btn:hover{color:#F87171;background:rgba(239,68,68,.08)}
 .admin-mob-back{display:none;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;padding:8px 14px;border-radius:9px;margin:14px 14px 0;}
 .admin-jobs-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
 .admin-job-table-head{display:flex;align-items:center;padding:10px 20px;background:var(--surface-alt);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.04em;gap:12px}
@@ -1162,29 +1161,30 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       </div>
     </div>
     <nav class="admin-sb-nav">
+      <div class="admin-nav-section-label">Việc làm</div>
       <button class="admin-nav-item on" id="navBtnJobsList" onclick="adminNav('jobs-list')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>
-        <span class="admin-nav-label">Quản lý việc làm</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>
+        Danh sách việc làm
       </button>
       <button class="admin-nav-item" id="navBtnJobsAdd" onclick="adminNav('jobs-form')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        <span class="admin-nav-label">Thêm việc làm mới</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Thêm việc làm
       </button>
+      <div class="admin-nav-section-label">Nội dung</div>
       <button class="admin-nav-item" id="navBtnArticles" onclick="adminNav('articles')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        <span class="admin-nav-label">Quản lý bài viết</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Quản lý bài viết
       </button>
-      <div class="admin-nav-sep"></div>
+      <div class="admin-nav-section-label">Hệ thống</div>
       <button class="admin-nav-item" id="navBtnDeploy" onclick="adminNav('deploy')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-        <span class="admin-nav-label">Xuất & Deploy</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+        Xuất & Deploy
       </button>
-      <button class="admin-nav-item" onclick="closeAdmin()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span class="admin-nav-label">Xem website</span>
+      <button class="admin-nav-item" onclick="window.open(location.origin+location.pathname,'_blank')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Xem website
       </button>
     </nav>
-    <div class="admin-sb-stats" id="adminSbStats"></div>
     <button class="admin-logout-btn" onclick="adminLogout()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Đăng xuất
