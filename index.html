@@ -2622,7 +2622,7 @@ async function syncFromGSheet() {
 // ── ADMIN ──
 function saveJobs(jobs) { localStorage.setItem(STORE_KEY, JSON.stringify(jobs)); }
 
-const CAT_TOKUTEI = ['🌾 Nông nghiệp','🐟 Ngư nghiệp','🏗️ Xây dựng','🚢 Đóng tàu & Cơ khí tàu','🍱 Chế biến thực phẩm','🍽️ Dịch vụ ăn uống','🚗 Ô tô','✈️ Hàng không','🏨 Lưu trú / Khách sạn','🧹 Vệ sinh tòa nhà','⚙️ Nhóm ngành 1 (Cơ khí)','🔌 Nhóm ngành 2 (Điện tử)','💊 Điều dưỡng / Hộ lý'];
+const CAT_TOKUTEI = ['🍱 Chế biến thực phẩm','⚙️ Nhóm ngành 1 (Cơ khí)','🔌 Nhóm ngành 2 (Điện tử)','🏗️ Xây dựng','💊 Điều dưỡng','🍽️ Nhà hàng','🧹 Vệ sinh tòa nhà','🚗 Bảo dưỡng ô tô','🌾 Nông nghiệp','🏨 Lưu trú / Khách sạn','🐟 Ngư nghiệp','🚢 Đóng tàu','✈️ Hàng không','🚛 Vận tải','🌲 Lâm nghiệp','🧵 May','🖨️ In ấn'];
 const CAT_KYSIS   = ['💻 IT / Phần mềm','📊 Kinh tế / Tài chính','⚙️ Cơ khí','🏗️ Xây dựng / Kiến trúc','⚡ Điện / Điện tử','🧪 Hóa chất / Môi trường','🔧 Cơ điện tử','🚗 Ô tô / Giao thông'];
 
 function adminPickType(val) {
