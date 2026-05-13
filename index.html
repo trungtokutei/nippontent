@@ -1821,8 +1821,11 @@ function renderHeroJobs() {
       const sal = j.salary || '';
       return `<div class="mjob" onclick="scrollToJob('${j.id}')" title="Xem trong danh sách việc làm">
         <div class="minfo">
-          <div class="mtitle">${j.title}</div>
-          <div class="mmeta">${[j.city, j.japanese, sal, j.gender?(j.gender==='Không yêu cầu'?'Nam và Nữ':j.gender):null].filter(Boolean).join(' · ')}</div>
+          <div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">
+            <div class="mtitle">${j.title}</div>
+            ${j.gender?`<span style="font-size:11px;font-weight:700;color:var(--text-2);white-space:nowrap">${j.gender==='Không yêu cầu'?'Nam và Nữ':j.gender}</span>`:''}
+          </div>
+          <div class="mmeta">${[j.city, j.japanese, sal].filter(Boolean).join(' · ')}</div>
         </div>
         ${j.type==='both'?`<span class="jbadge jbadge-viet">Đầu Việt</span><span class="jbadge jbadge-nhat">Đầu Nhật</span>`:`<span class="jbadge jbadge-${j.type}">${j.type==='viet'?'Đầu Việt':j.type==='kysis'?'Kỹ sư':'Đầu Nhật'}</span>`}
       </div>`;
