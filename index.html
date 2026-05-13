@@ -770,6 +770,10 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .bulk-bar{display:none;align-items:center;gap:10px;padding:10px 20px;background:#FFF7ED;border-bottom:1px solid #FED7AA;flex-wrap:wrap}
 .bulk-bar.show{display:flex}
 .bulk-bar-count{font-size:13px;font-weight:700;color:#EA580C;flex:1}
+.mjob{cursor:pointer;transition:background .15s}
+.mjob:hover{background:rgba(108,99,255,.06)}
+@keyframes jcard-flash{0%,100%{outline:2px solid transparent}25%,75%{outline:2px solid var(--primary);outline-offset:2px}}
+.jcard-flash{animation:jcard-flash 1.4s ease}
 .ajtc-title{flex:3;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ajtc-type{flex:1.2;min-width:0}
 .ajtc-cat{flex:1.5;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1812,7 +1816,7 @@ function renderHeroJobs() {
     if(!typeJobs.length) return;
     panel.innerHTML = typeJobs.map(j => {
       const sal = j.salary || '';
-      return `<div class="mjob">
+      return `<div class="mjob" onclick="scrollToJob('${j.id}')" title="Xem trong danh sách việc làm">
         <div class="minfo">
           <div class="mtitle">${j.title}</div>
           <div class="mmeta">${[j.city, j.japanese, sal].filter(Boolean).join(' · ')}</div>
@@ -1889,7 +1893,7 @@ function renderJobs() {
     const desc = j.desc ? j.desc.slice(0, 80) + (j.desc.length > 80 ? '…' : '') : '';
     const isActive = j.status === 'active';
     const saved = isSaved(j.id);
-    return `<div class="jcard ${j.type}${isActive?'':' expired'}" onclick="openJob('${j.id}')" style="cursor:pointer">
+    return `<div class="jcard ${j.type}${isActive?'':' expired'}" data-id="${j.id}" onclick="openJob('${j.id}')" style="cursor:pointer">
       <div style="display:flex;flex-direction:column;gap:10px">
           <div class="jcard-top">
             ${j.type==='both'?`<span class="jbadge jbadge-viet">Đầu Việt</span><span class="jbadge jbadge-nhat">Đầu Nhật</span>`:`<span class="jbadge jbadge-${j.type}">${j.type==='viet'?'Đầu Việt':j.type==='kysis'?'Kỹ sư':'Đầu Nhật'}</span>`}
@@ -1908,6 +1912,40 @@ function renderJobs() {
       <button class="jcard-cta" style="width:100%;background:var(--primary)" onclick="event.stopPropagation();openJob('${j.id}')">Xem chi tiết →</button>
     </div>`;
   }).join('');
+}
+
+function scrollToJob(id) {
+  // Reset tất cả filter
+  currentGroup = null;
+  currentCat = null;
+  currentSearch = '';
+  currentPref = null;
+  currentJapanese = null;
+  const inp = document.getElementById('searchInput');
+  if(inp) inp.value = '';
+  document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
+  document.getElementById('groupGrid').style.display = 'grid';
+  document.getElementById('subcatLevel').style.display = 'none';
+
+  // Tìm vị trí job trong danh sách để xác định trang
+  const allJobs = getJobs().filter(j => j.status === 'active');
+  const idx = allJobs.findIndex(j => j.id === id);
+  currentPage = idx === -1 ? 1 : Math.ceil((idx + 1) / JOBS_PER_PAGE);
+
+  renderJobs();
+
+  // Scroll đến section rồi highlight card
+  setTimeout(() => {
+    document.getElementById('categories').scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(() => {
+      const card = document.querySelector(`.jcard[data-id="${id}"]`);
+      if(card) {
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.classList.add('jcard-flash');
+        setTimeout(() => card.classList.remove('jcard-flash'), 1500);
+      }
+    }, 400);
+  }, 80);
 }
 
 function goToPage(page) {
