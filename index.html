@@ -988,7 +988,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       <button class="group-card" onclick="selectGroup('tokutei')">
         <div class="group-ico">🏭</div>
         <div class="group-name">Tokutei</div>
-        <div class="group-sub">Thực phẩm · Xây dựng · Điều dưỡng · 16 ngành</div>
+        <div class="group-sub">Thực phẩm · Xây dựng · Điều dưỡng · 17 ngành</div>
         <div class="group-count" id="gc-tokutei">0 việc</div>
       </button>
       <button class="group-card" onclick="selectGroup('kysis')">
@@ -1005,7 +1005,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
         <button class="back-btn" onclick="backToGroups()">← Quay lại</button>
         <span class="subcat-title" id="subcatTitle"></span>
       </div>
-      <!-- Tokutei: 16 ngành -->
+      <!-- Tokutei: 17 ngành -->
       <div class="cat-grid stag" id="catGridTokutei" style="display:none">
         <a href="#" class="ccat" data-cat="Chế biến thực phẩm" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e">🍱</span><div class="ccat-n">Chế biến thực phẩm</div><div class="ccat-c">0 việc</div></a>
         <a href="#" class="ccat" data-cat="Nhóm ngành 1 (Cơ khí)" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e">⚙️</span><div class="ccat-n">Nhóm ngành 1 (Cơ khí)</div><div class="ccat-c">0 việc</div></a>
@@ -1023,6 +1023,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
         <a href="#" class="ccat" data-cat="Vận tải" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e">🚛</span><div class="ccat-n">Vận tải</div><div class="ccat-c">0 việc</div></a>
         <a href="#" class="ccat" data-cat="Lâm nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e">🌲</span><div class="ccat-n">Lâm nghiệp</div><div class="ccat-c">0 việc</div></a>
         <a href="#" class="ccat" data-cat="May" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e">🧵</span><div class="ccat-n">May</div><div class="ccat-c">0 việc</div></a>
+        <a href="#" class="ccat" data-cat="In ấn" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e">🖨️</span><div class="ccat-n">In ấn</div><div class="ccat-c">0 việc</div></a>
       </div>
       <!-- Kỹ sư: 13 ngành / 4 nhóm -->
       <div class="cat-grid stag" id="catGridKysis" style="display:none">
@@ -1665,6 +1666,7 @@ const NGANH_TOKUTEI = [
   ['Vận tải','Vận tải'],
   ['Lâm nghiệp','Lâm nghiệp'],
   ['May','May'],
+  ['In ấn','In ấn'],
 ];
 const NGANH_KYSIS_GROUPS = [
   {g:'⚙️ Kỹ thuật & Sản xuất', items:['Cơ khí','Điện - Điện tử','Xây dựng','Hóa học & Vật liệu','Ô tô']},
