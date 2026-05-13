@@ -779,7 +779,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       <span class="logo-text">Nippon <em>Tokutei</em></span>
     </a>
     <ul class="nav-links">
-      <li><a href="#" onclick="event.preventDefault();scrollToSearch()">Tìm việc làm</a></li>
+      <li><a href="#categories" onclick="event.preventDefault();document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Tìm việc làm</a></li>
       <li><a href="#categories">Danh mục</a></li>
       <li><a href="#thongtin" onclick="event.preventDefault();openArticles()">Thông tin</a></li>
     </ul>
@@ -813,7 +813,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   </div>
 </nav>
 <div class="mob-menu" id="mobmenu">
-  <a href="#" onclick="event.preventDefault();document.getElementById('mobmenu').classList.remove('open');scrollToSearch()">Tìm việc làm</a>
+  <a href="#categories" onclick="document.getElementById('mobmenu').classList.remove('open');document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Tìm việc làm</a>
   <a href="#categories">Danh mục</a>
   <a href="#thongtin" onclick="document.getElementById('mobmenu').classList.remove('open');openArticles()">Thông tin</a>
   <a href="https://zalo.me/0386887691" target="_blank" style="color:var(--primary);font-weight:700;border-bottom:none">💬 Liên hệ Zalo →</a>
