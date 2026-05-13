@@ -2433,10 +2433,14 @@ async function syncFromGSheet() {
       status:g(r[15])||'active'
     })).filter(j=>j.title);
     if(!newJobs.length){statusEl.textContent='⚠️ Không có job nào (cột C - title bị trống?)';return;}
+    // Push lên Supabase để mọi người dùng đều thấy
+    statusEl.textContent=`⏳ Đang lưu lên Supabase...`;
+    const { error: sbErr } = await sb.from('jobs').upsert(newJobs);
     const manual = getJobs().filter(j=>!j.id.startsWith('gs_'));
     saveJobs([...manual,...newJobs]);
-    renderAdminJobs(); renderAdminSideStats(); updateCatCounts(); renderJobs();
-    statusEl.textContent=`✅ Đã đồng bộ ${newJobs.length} việc làm`;
+    renderAdminJobs(); renderAdminSideStats(); updateCatCounts(); renderJobs(); renderHeroJobs();
+    if(sbErr) statusEl.textContent=`⚠️ Đã lưu local (${newJobs.length} jobs) nhưng lỗi Supabase: ${sbErr.message}`;
+    else statusEl.textContent=`✅ Đã đồng bộ ${newJobs.length} việc làm lên Supabase thành công!`;
   } catch(e) {
     statusEl.textContent='❌ Lỗi: '+e.message+'. Kiểm tra sheet có chia sẻ công khai không.';
   }
