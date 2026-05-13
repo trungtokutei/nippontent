@@ -503,6 +503,12 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .jcard.expired{opacity:.65}
 .jcard.expired .jcard-cta{background:var(--text-3);pointer-events:none}
 .jcard-cta:hover{background:#0054cc}
+#jobsPagination{grid-column:1/-1;display:flex;justify-content:center;padding:24px 0 8px}
+.pg{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
+.pg-btn{padding:8px 14px;border:1px solid var(--border);background:#fff;color:var(--text-2);font-size:14px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;font-family:inherit}
+.pg-btn:hover:not(:disabled){background:var(--primary-soft);border-color:var(--primary);color:var(--primary)}
+.pg-btn.pg-on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.pg-btn:disabled{opacity:.4;cursor:default}
 .jobs-empty{text-align:center;padding:48px 24px;color:var(--text-3);grid-column:1/-1}
 .jobs-empty .ej{font-size:40px;margin-bottom:12px}
 .jobs-empty p{font-size:15px;font-weight:600;color:var(--text-2);margin-bottom:8px}
@@ -1030,6 +1036,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
         <div class="jobs-count" id="jobsCount">0 việc làm</div>
       </div>
       <div class="jobs-list" id="jobsList"></div>
+      <div id="jobsPagination"></div>
     </div>
   </div>
 </section>
@@ -1703,6 +1710,8 @@ let currentCat = null;
 let currentSearch = '';
 let currentPref = null;
 let currentJapanese = null;
+let currentPage = 1;
+const JOBS_PER_PAGE = 9;
 
 function scrollToSearch() {
   const inp = document.getElementById('searchInput');
@@ -1713,6 +1722,7 @@ function scrollToSearch() {
 
 function doSearch(val) {
   currentSearch = val.trim().toLowerCase();
+  currentPage = 1;
   renderJobs();
 }
 
@@ -1735,11 +1745,13 @@ function doHeroSearch() {
   currentPref    = document.getElementById('filterTinh').value || null;
   currentJapanese= document.getElementById('filterJapanese').value || null;
   currentSearch  = '';
+  currentPage = 1;
   document.getElementById('categories').scrollIntoView({behavior:'smooth', block:'start'});
   setTimeout(renderJobs, 350);
 }
 function clearSearch() {
   currentSearch = '';
+  currentPage = 1;
   const inp = document.getElementById('searchInput');
   if (inp) inp.value = '';
   renderJobs();
@@ -1830,10 +1842,13 @@ function renderJobs() {
     );
   }
 
-  jobs = jobs.slice(0, 9);
+  const totalJobs = jobs.length;
+  const totalPages = Math.ceil(totalJobs / JOBS_PER_PAGE);
+  if(currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+  jobs = jobs.slice((currentPage - 1) * JOBS_PER_PAGE, currentPage * JOBS_PER_PAGE);
 
   const countEl = document.getElementById('jobsCount');
-  if(countEl) countEl.textContent = jobs.length + ' việc làm';
+  if(countEl) countEl.textContent = totalJobs + ' việc làm';
 
   if(!jobs.length) {
     container.innerHTML = `<div class="jobs-empty">
@@ -1842,6 +1857,21 @@ function renderJobs() {
       <a href="https://zalo.me/0386887691" target="_blank">Nhắn Zalo để hỏi thêm →</a>
     </div>`;
     return;
+  }
+
+  const pgEl = document.getElementById('jobsPagination');
+  if(pgEl) {
+    if(totalPages <= 1) { pgEl.innerHTML = ''; }
+    else {
+      let p = '<div class="pg">';
+      p += `<button class="pg-btn" onclick="goToPage(${currentPage-1})" ${currentPage===1?'disabled':''}>&larr; Trước</button>`;
+      for(let i=1;i<=totalPages;i++) {
+        p += `<button class="pg-btn${i===currentPage?' pg-on':''}" onclick="goToPage(${i})">${i}</button>`;
+      }
+      p += `<button class="pg-btn" onclick="goToPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>Tiếp &rarr;</button>`;
+      p += '</div>';
+      pgEl.innerHTML = p;
+    }
   }
 
   container.innerHTML = jobs.map(j => {
@@ -1870,6 +1900,12 @@ function renderJobs() {
   }).join('');
 }
 
+function goToPage(page) {
+  currentPage = page;
+  renderJobs();
+  setTimeout(() => document.getElementById('jobsList').scrollIntoView({behavior:'smooth', block:'start'}), 50);
+}
+
 function getJobFlagHTML(type) {
   if (type === 'viet') return FLAG_VN_SVG(48,32);
   if (type === 'nhat') return FLAG_JP_SVG(48,32);
@@ -1880,6 +1916,7 @@ function getJobFlagHTML(type) {
 function selectGroup(group) {
   currentGroup = group;
   currentCat = null;
+  currentPage = 1;
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   document.getElementById('groupGrid').style.display = 'none';
   document.getElementById('subcatLevel').style.display = 'block';
@@ -1894,6 +1931,7 @@ function backToGroups() {
   currentGroup = null;
   currentCat = null;
   currentType = 'all';
+  currentPage = 1;
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   document.getElementById('groupGrid').style.display = 'grid';
   document.getElementById('subcatLevel').style.display = 'none';
@@ -1925,6 +1963,7 @@ function filterType(type) {
 
 function filterCat(cat) {
   currentCat = (currentCat === cat) ? null : cat;
+  currentPage = 1;
   document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
   renderJobs();
   if(currentCat) setTimeout(() => document.getElementById('jobsList').scrollIntoView({behavior:'smooth', block:'start'}), 80);
