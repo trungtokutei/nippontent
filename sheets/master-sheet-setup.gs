@@ -1,28 +1,148 @@
 // ============================================================
-// TokuteiJob — Script tổng hợp (1 tab duy nhất)
+// TokuteiJob — All-in-one (không cần file HTML riêng)
 // ─────────────────────────────────────────────────────────────
-// Cài đặt:
-//   1. Paste file này vào Apps Script (file Code.gs)
-//   2. Tạo thêm file HTML tên "Sidebar", paste Sidebar.html vào
-//   3. Reload Sheet → cho phép quyền khi được hỏi
-//   4. Menu → ⚙️ Thiết lập sheet (chạy 1 lần)
-//   5. Menu → 🌐 Tạo Sheet Công Khai (chạy 1 lần)
-//      → copy link hiện ra, share cho Viewer
+// Cài đặt (CHỈ CẦN 1 FILE NÀY):
+//   1. Paste toàn bộ file này vào Apps Script (Code.gs)
+//   2. Save → Reload Sheet → cho phép quyền
+//   3. Menu → ⚙️ Thiết lập sheet   (chạy 1 lần)
+//   4. Menu → 🌐 Tạo Sheet Công Khai (chạy 1 lần)
 // ============================================================
 
 // ── SUPABASE ─────────────────────────────────────────────────
 const SUPABASE_URL = 'https://mfwxijsrrtfqmcmscocj.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1md3hpanNycnRmcW1jbXNjb2NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDk3MzgsImV4cCI6MjA5NDE4NTczOH0.2tGumJw0n1nVidFah-xp7WC96KYlla3BmrTVGGadsuo';
 
-// ── 1 TAB DUY NHẤT ────────────────────────────────────────────
-// Cột A–O (hiển thị), P–S (nội bộ, ẩn):
-//   A: type (nhat/viet/kysis)   B: title        C: category
-//   D: city                     E: salary        F: japanese
-//   G: gender                   H: workHours     I: daysOff
-//   J: overtime                 K: raise         L: bonus
-//   M: housing                  N: desc          O: status
-//   P: nguon (nội bộ)           Q: hoaHong       R: phiNet    S: updatedAt
+// ── 1 TAB DUY NHẤT ───────────────────────────────────────────
+// A: type   B: title     C: category  D: city      E: salary
+// F: japanese  G: gender  H: workHours  I: daysOff  J: overtime
+// K: raise  L: bonus  M: housing  N: desc  O: status
+// P: nguon (nội bộ)  Q: hoaHong  R: phiNet  S: updatedAt
 const SHEET_NAME = 'Công Việc';
+
+// ── HTML SIDEBAR (nhúng trực tiếp) ───────────────────────────
+const SIDEBAR_HTML = '<!DOCTYPE html>' +
+'<html><head><base target="_top"><style>' +
+'* { box-sizing: border-box; margin: 0; padding: 0; }' +
+'body { font-family: "Google Sans", Arial, sans-serif; font-size: 13px; color: #202124; background: #f8f9fa; }' +
+'.header { background: #1a3c5e; color: white; padding: 14px 16px; font-size: 15px; font-weight: 600; position: sticky; top: 0; z-index: 10; }' +
+'.form-body { padding: 12px 16px 80px; }' +
+'.section-label { font-size: 10px; font-weight: 700; color: #1a3c5e; text-transform: uppercase; letter-spacing: .07em; margin: 16px 0 8px; padding-bottom: 5px; border-bottom: 2px solid #e8f0fe; }' +
+'.mgmt-label { color: #4a3580; border-bottom-color: #ede7ff; }' +
+'.field { margin-bottom: 10px; }' +
+'label { display: block; font-size: 11px; font-weight: 600; color: #5f6368; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }' +
+'label .req { color: #e8305a; margin-left: 2px; }' +
+'input, select, textarea { width: 100%; border: 1px solid #dadce0; border-radius: 6px; padding: 7px 10px; font-size: 13px; color: #202124; background: #fff; outline: none; transition: border-color .15s, box-shadow .15s; font-family: inherit; }' +
+'input:focus, select:focus, textarea:focus { border-color: #2D2CDB; box-shadow: 0 0 0 2px rgba(45,44,219,.12); }' +
+'textarea { resize: vertical; min-height: 80px; line-height: 1.5; }' +
+'.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }' +
+'.footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px; background: #fff; border-top: 1px solid #e8eaed; display: flex; gap: 8px; }' +
+'.btn-save { flex: 1; background: #2D2CDB; color: white; border: none; border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; }' +
+'.btn-save:hover { background: #1e1db8; } .btn-save:disabled { background: #9aa0a6; cursor: not-allowed; }' +
+'.btn-clear { background: transparent; color: #5f6368; border: 1px solid #dadce0; border-radius: 8px; padding: 10px 14px; font-size: 13px; cursor: pointer; }' +
+'.btn-clear:hover { background: #f1f3f4; }' +
+'.toast { position: fixed; bottom: 68px; left: 16px; right: 16px; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; display: none; z-index: 100; text-align: center; }' +
+'.toast.success { background: #e6f4ea; color: #137333; border: 1px solid #b7dfbf; }' +
+'.toast.error { background: #fce8e6; color: #c5221f; border: 1px solid #f5c6c4; }' +
+'</style></head><body>' +
+'<div class="header">+ Thêm job mới</div>' +
+'<div class="form-body">' +
+'<div class="section-label">Thông tin cơ bản</div>' +
+'<div class="row2">' +
+'<div class="field"><label>Loại việc <span class="req">*</span></label>' +
+'<select id="type" onchange="onTypeChange()">' +
+'<option value="">-- Chọn --</option>' +
+'<option value="viet">Tokutei Đầu Việt (VN → JP)</option>' +
+'<option value="nhat">Tokutei Đầu Nhật (đang ở JP)</option>' +
+'<option value="both">Nhật - Việt (cả hai)</option>' +
+'<option value="kysis">Kỹ sư IT</option>' +
+'</select></div>' +
+'<div class="field"><label>Trạng thái</label>' +
+'<select id="status"><option value="active">active</option><option value="inactive">inactive</option></select>' +
+'</div></div>' +
+'<div class="field"><label>Ngành nghề <span class="req">*</span></label>' +
+'<select id="category"><option value="">-- Chọn loại việc trước --</option></select></div>' +
+'<div class="field"><label>Tên công việc <span class="req">*</span></label>' +
+'<input type="text" id="title" placeholder="VD: Công nhân chế biến thực phẩm"></div>' +
+'<div class="row2">' +
+'<div class="field"><label>Tỉnh / TP</label><input type="text" id="city" placeholder="VD: Aichi"></div>' +
+'<div class="field"><label>Tiếng Nhật</label>' +
+'<select id="japanese">' +
+'<option value="Không yêu cầu">Không yêu cầu</option>' +
+'<option value="N5">N5</option><option value="N4">N4</option>' +
+'<option value="N3">N3</option><option value="N2">N2</option><option value="N1">N1</option>' +
+'</select></div></div>' +
+'<div class="field"><label>Giới tính</label>' +
+'<select id="gender">' +
+'<option value="Không yêu cầu">Không yêu cầu</option>' +
+'<option value="Nam">Nam</option><option value="Nữ">Nữ</option>' +
+'<option value="Nam ưu tiên">Nam ưu tiên</option>' +
+'<option value="Nữ ưu tiên">Nữ ưu tiên</option>' +
+'</select></div>' +
+'<div class="field"><label>Lương</label>' +
+'<input type="text" id="salary" placeholder="VD: 180.000 - 220.000 yên/tháng"></div>' +
+'<div class="section-label">Điều kiện làm việc</div>' +
+'<div class="row2">' +
+'<div class="field"><label>Giờ làm</label><input type="text" id="workHours" placeholder="VD: 8:00 - 17:00"></div>' +
+'<div class="field"><label>Ngày nghỉ</label><input type="text" id="daysOff" placeholder="VD: Thứ 7 &amp; CN"></div>' +
+'</div>' +
+'<div class="row2">' +
+'<div class="field"><label>Tăng ca</label><input type="text" id="overtime" placeholder="VD: 20h/tháng"></div>' +
+'<div class="field"><label>Tăng lương</label><input type="text" id="raise" placeholder="VD: 6 tháng/lần"></div>' +
+'</div>' +
+'<div class="row2">' +
+'<div class="field"><label>Thưởng</label><input type="text" id="bonus" placeholder="VD: Thưởng cuối năm"></div>' +
+'<div class="field"><label>Nhà ở</label><input type="text" id="housing" placeholder="VD: Có (miễn phí)"></div>' +
+'</div>' +
+'<div class="section-label">Mô tả</div>' +
+'<div class="field"><textarea id="desc" placeholder="Chi tiết công việc, yêu cầu, phúc lợi..."></textarea></div>' +
+'<div id="mgmt-section" style="display:none">' +
+'<div class="section-label mgmt-label">Quản lý nội bộ</div>' +
+'<div class="field"><label>Nguồn</label><input type="text" id="nguon" placeholder="VD: Đối tác ABC"></div>' +
+'<div class="row2">' +
+'<div class="field"><label>Hoa hồng</label><input type="text" id="hoaHong" placeholder="VD: 500.000đ"></div>' +
+'<div class="field"><label>Phí net</label><input type="text" id="phiNet" placeholder="VD: 300.000đ"></div>' +
+'</div></div>' +
+'</div>' +
+'<div class="toast" id="toast"></div>' +
+'<div class="footer">' +
+'<button class="btn-clear" onclick="clearForm()" title="Xóa form">↺</button>' +
+'<button class="btn-save" id="btnSave" onclick="doSave()">Lưu vào sheet</button>' +
+'</div>' +
+'<script>' +
+'var TOKUTEI_CATS=["Chế biến thực phẩm","Nhóm ngành 1 (Cơ khí)","Nhóm ngành 2 (Điện tử)","Xây dựng","Điều dưỡng","Nhà hàng","Vệ sinh tòa nhà","Bảo dưỡng ô tô","Nông nghiệp","Lưu trú / Khách sạn","Ngư nghiệp","Đóng tàu","Hàng không","Vận tải","Lâm nghiệp","May","In ấn"];' +
+'var KYSIS_CATS=["Lập trình viên","Kỹ sư hệ thống / Mạng","AI & Data Science","Cơ khí","Điện - Điện tử","Hóa học & Vật liệu","Ô tô","Phiên dịch / Thông dịch","Xuất nhập khẩu","Quản trị kinh doanh / Marketing"];' +
+'function onTypeChange(){' +
+'var type=document.getElementById("type").value;' +
+'var sel=document.getElementById("category");' +
+'sel.innerHTML="<option value=\\"\\">-- Chọn ngành --</option>";' +
+'var list=type==="kysis"?KYSIS_CATS:(type?TOKUTEI_CATS:[]);' +
+'list.forEach(function(c){var o=document.createElement("option");o.value=o.textContent=c;sel.appendChild(o);});}' +
+'function doSave(){' +
+'var get=function(id){return document.getElementById(id).value.trim();};' +
+'if(!get("type")){showToast("Vui lòng chọn loại việc","error");return;}' +
+'if(!get("category")){showToast("Vui lòng chọn ngành nghề","error");return;}' +
+'if(!get("title")){showToast("Vui lòng nhập tên công việc","error");return;}' +
+'var data={type:get("type"),category:get("category"),title:get("title"),city:get("city"),' +
+'salary:get("salary"),japanese:get("japanese"),gender:get("gender"),' +
+'workHours:get("workHours"),daysOff:get("daysOff"),overtime:get("overtime"),raise:get("raise"),' +
+'bonus:get("bonus"),housing:get("housing"),desc:get("desc"),status:get("status"),' +
+'nguon:get("nguon"),hoaHong:get("hoaHong"),phiNet:get("phiNet")};' +
+'var btn=document.getElementById("btnSave");' +
+'btn.disabled=true;btn.textContent="Đang lưu...";' +
+'google.script.run' +
+'.withSuccessHandler(function(){showToast("✅ Đã lưu!","success");clearForm();btn.disabled=false;btn.textContent="Lưu vào sheet";})' +
+'.withFailureHandler(function(err){showToast("❌ "+err.message,"error");btn.disabled=false;btn.textContent="Lưu vào sheet";})' +
+'.saveJob(data);}' +
+'function clearForm(){' +
+'["title","city","salary","workHours","daysOff","overtime","raise","bonus","housing","desc","nguon","hoaHong","phiNet"].forEach(function(id){document.getElementById(id).value="";});' +
+'document.getElementById("type").value="";' +
+'document.getElementById("status").value="active";' +
+'document.getElementById("japanese").value="Không yêu cầu";' +
+'document.getElementById("gender").value="Không yêu cầu";' +
+'onTypeChange();}' +
+'function showToast(msg,type){var t=document.getElementById("toast");t.textContent=msg;t.className="toast "+type;t.style.display="block";clearTimeout(t._timer);t._timer=setTimeout(function(){t.style.display="none";},3000);}' +
+'google.script.run.withSuccessHandler(function(owner){if(owner)document.getElementById("mgmt-section").style.display="block";}).isOwner();' +
+'<\/script></body></html>';
 
 // ── TỰ ĐỘNG CẬP NHẬT NGÀY KHI SỬA ──────────────────────────
 function onEdit(e) {
@@ -116,7 +236,6 @@ function setupPublicSheet() {
   );
 }
 
-// Đồng bộ thủ công từ menu
 function syncToPublicSheet() {
   try {
     _doSyncToPublic(getPublicSpreadsheet());
@@ -126,7 +245,6 @@ function syncToPublicSheet() {
   }
 }
 
-// Xóa sạch rồi copy cột A–O từ sheet nội bộ → công khai
 function _doSyncToPublic(pubSS) {
   const ss       = SpreadsheetApp.getActiveSpreadsheet();
   const sheet    = ss.getSheetByName(SHEET_NAME);
@@ -140,7 +258,7 @@ function _doSyncToPublic(pubSS) {
   if (last < 2) return;
 
   const data = sheet.getRange(2, 1, last - 1, 15).getValues()
-                    .filter(r => r[1]); // r[1] = title (cột B)
+                    .filter(r => r[1]);
   if (data.length) pubSheet.getRange(2, 1, data.length, 15).setValues(data);
 }
 
@@ -160,7 +278,7 @@ function toggleInternalColumns() {
 
 // ── SIDEBAR ──────────────────────────────────────────────────
 function showSidebar() {
-  const html = HtmlService.createHtmlOutputFromFile('Sidebar')
+  const html = HtmlService.createHtmlOutput(SIDEBAR_HTML)
     .setTitle('Thêm job mới')
     .setWidth(340);
   SpreadsheetApp.getUi().showSidebar(html);
@@ -171,7 +289,7 @@ function saveJob(data) {
   if (!sheet) throw new Error('Không tìm thấy tab: ' + SHEET_NAME);
 
   const row = [
-    data.type,               // A — loại đơn
+    data.type,               // A
     data.title,              // B
     data.category,           // C
     data.city,               // D
@@ -197,7 +315,6 @@ function saveJob(data) {
   sheet.getRange(insertAt, 16, 1, 4).setBackground('#f3f0ff').setFontColor('#5f4b8b');
   sheet.getRange(insertAt, 19).setNumberFormat('dd/MM/yyyy HH:mm');
 
-  // Sắp xếp theo ngành (cột C = column 3)
   const lastRow = sheet.getLastRow();
   if (lastRow > 2) {
     sheet.getRange(2, 1, lastRow - 1, row.length)
@@ -211,7 +328,7 @@ function saveJob(data) {
   }
 }
 
-// ── SUPABASE HELPERS ─────────────────────────────────────────
+// ── SUPABASE ─────────────────────────────────────────────────
 function getSupabaseHeaders() {
   return {
     'apikey':        SUPABASE_KEY,
@@ -224,25 +341,24 @@ function getSupabaseHeaders() {
 function buildJob(r, i) {
   return {
     id:        String(r[0] || '').trim() + '-' + i,
-    type:      String(r[0] || '').trim(),  // A
-    title:     String(r[1] || '').trim(),  // B
-    category:  String(r[2] || '').trim(),  // C
-    city:      String(r[3] || '').trim(),  // D
-    salary:    String(r[4] || '').trim(),  // E
-    japanese:  String(r[5] || '').trim(),  // F
-    gender:    String(r[6] || '').trim(),  // G
-    workHours: String(r[7] || '').trim(),  // H
-    daysOff:   String(r[8] || '').trim(),  // I
-    overtime:  String(r[9] || '').trim(),  // J
-    raise:     String(r[10]|| '').trim(),  // K
-    bonus:     String(r[11]|| '').trim(),  // L
-    housing:   String(r[12]|| '').trim(),  // M
-    desc:      String(r[13]|| '').trim(),  // N
+    type:      String(r[0] || '').trim(),
+    title:     String(r[1] || '').trim(),
+    category:  String(r[2] || '').trim(),
+    city:      String(r[3] || '').trim(),
+    salary:    String(r[4] || '').trim(),
+    japanese:  String(r[5] || '').trim(),
+    gender:    String(r[6] || '').trim(),
+    workHours: String(r[7] || '').trim(),
+    daysOff:   String(r[8] || '').trim(),
+    overtime:  String(r[9] || '').trim(),
+    raise:     String(r[10]|| '').trim(),
+    bonus:     String(r[11]|| '').trim(),
+    housing:   String(r[12]|| '').trim(),
+    desc:      String(r[13]|| '').trim(),
     status:    'active',
   };
 }
 
-// ── SYNC LÊN SUPABASE ────────────────────────────────────────
 function syncToSupabase() {
   const ss    = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName(SHEET_NAME);
@@ -255,9 +371,8 @@ function syncToSupabase() {
     .slice(1)
     .filter(r => r[1] && String(r[14] || '').toLowerCase().trim() === 'active');
 
-  // Xóa toàn bộ jobs cũ trên Supabase
   const delRes = UrlFetchApp.fetch(
-    `${SUPABASE_URL}/rest/v1/jobs?id=not.is.null`,
+    SUPABASE_URL + '/rest/v1/jobs?id=not.is.null',
     { method: 'DELETE', headers: getSupabaseHeaders(), muteHttpExceptions: true }
   );
   if (delRes.getResponseCode() >= 300) {
@@ -270,8 +385,8 @@ function syncToSupabase() {
     return;
   }
 
-  const payload = rows.map((r, i) => buildJob(r, i));
-  const insRes  = UrlFetchApp.fetch(`${SUPABASE_URL}/rest/v1/jobs`, {
+  const payload = rows.map(function(r, i) { return buildJob(r, i); });
+  const insRes  = UrlFetchApp.fetch(SUPABASE_URL + '/rest/v1/jobs', {
     method:             'POST',
     headers:            getSupabaseHeaders(),
     payload:            JSON.stringify(payload),
@@ -291,37 +406,28 @@ function setupSourceSheet() {
   const ss    = SpreadsheetApp.getActiveSpreadsheet();
   let   sheet = ss.getSheetByName(SHEET_NAME);
 
-  // Tạo tab nếu chưa có
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-  }
+  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
 
-  // Header hàng 1
-  const HEADERS = [
-    'Loại đơn','Tên công việc','Ngành nghề','Tỉnh/TP','Lương','Tiếng Nhật',
-    'Giới tính','Giờ làm','Ngày nghỉ','Tăng ca','Tăng lương','Thưởng','Nhà ở','Mô tả','Trạng thái',
-    'Nguồn','Hoa hồng','Phí net','Ngày cập nhật',
-  ];
+  const PUB_HEADERS  = ['Loại đơn','Tên công việc','Ngành nghề','Tỉnh/TP','Lương','Tiếng Nhật','Giới tính','Giờ làm','Ngày nghỉ','Tăng ca','Tăng lương','Thưởng','Nhà ở','Mô tả','Trạng thái'];
+  const PRIV_HEADERS = ['Nguồn','Hoa hồng','Phí net','Ngày cập nhật'];
+
   sheet.getRange(1, 1, 1, 15)
-    .setValues([HEADERS.slice(0, 15)])
+    .setValues([PUB_HEADERS])
     .setBackground('#1a3c5e').setFontColor('#fff')
     .setFontWeight('bold').setHorizontalAlignment('center');
   sheet.getRange(1, 16, 1, 4)
-    .setValues([HEADERS.slice(15)])
+    .setValues([PRIV_HEADERS])
     .setBackground('#4a3580').setFontColor('#fff')
     .setFontWeight('bold').setHorizontalAlignment('center');
 
   sheet.setFrozenRows(1);
 
-  // Độ rộng cột
-  const widths = [100,160,160,120,200,110,110,130,130,100,100,110,120,300,90,150,110,110,140];
-  widths.forEach((w, i) => sheet.setColumnWidth(i + 1, w));
+  [100,160,160,120,200,110,110,130,130,100,100,110,120,300,90,150,110,110,140]
+    .forEach(function(w, i) { sheet.setColumnWidth(i + 1, w); });
 
-  // Format ngày cập nhật (cột S)
   const lastRow = Math.max(sheet.getLastRow(), 2);
   sheet.getRange(2, 19, lastRow - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm');
 
-  // Ẩn cột nội bộ (P–S)
   for (let c = 16; c <= 19; c++) sheet.hideColumns(c);
 
   SpreadsheetApp.getUi().alert(
