@@ -495,12 +495,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .jcard:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
 .jcard-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-right:36px}
 .jcard-cat{font-size:11px;color:var(--text-3);background:var(--surface-alt);padding:3px 9px;border-radius:100px;white-space:nowrap}
-.jcard-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.jcard-ico svg{width:20px;height:20px;stroke-width:1.75}
-.jcard.viet .jcard-ico{background:var(--viet-soft);color:var(--viet)}
-.jcard.nhat .jcard-ico{background:var(--nhat-soft);color:var(--nhat)}
-.jcard.kysis .jcard-ico{background:var(--kysis-soft);color:var(--kysis)}
-.jcard.both .jcard-ico{background:var(--primary-soft);color:var(--primary)}
 .jcard-title{font-size:15px;font-weight:700;color:var(--text-1);line-height:1.35}
 .jcard-meta{display:flex;flex-wrap:wrap;gap:6px}
 .jcard-meta span{font-size:12px;color:var(--text-2);display:inline-flex;align-items:center;gap:4px}
@@ -1751,36 +1745,6 @@ const ICONS = {
   search:  `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg>`,
   briefcase:`<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
 };
-
-const CAT_ICON = {
-  'Chế biến thực phẩm':     'utensils',
-  'Nhóm ngành 1 (Cơ khí)':  'factory',
-  'Nhóm ngành 2 (Điện tử)': 'cpu',
-  'Xây dựng':               'hard-hat',
-  'Điều dưỡng':             'heart-pulse',
-  'Nhà hàng':               'chef-hat',
-  'Vệ sinh tòa nhà':        'sparkles',
-  'Bảo dưỡng ô tô':         'car',
-  'Nông nghiệp':            'sprout',
-  'Lưu trú / Khách sạn':    'building-2',
-  'Ngư nghiệp':             'fish',
-  'Đóng tàu':               'anchor',
-  'Hàng không':             'plane',
-  'Vận tải':                'truck',
-  'Lâm nghiệp':             'tree-pine',
-  'May':                    'scissors',
-  'In ấn':                  'printer',
-  'Cơ khí':                 'cog',
-  'Điện - Điện tử':         'zap',
-  'Hóa học & Vật liệu':     'flask-conical',
-  'Ô tô':                   'car',
-  'Lập trình viên':         'laptop',
-  'Kỹ sư hệ thống / Mạng':  'server',
-  'AI & Data Science':      'brain',
-  'Phiên dịch / Thông dịch':'languages',
-  'Xuất nhập khẩu':         'package',
-  'Quản trị kinh doanh / Marketing': 'trending-up',
-};
 let currentGroup = null; // null | 'tokutei' | 'kysis'
 let currentType = 'all';
 let currentCat = null;
@@ -1981,18 +1945,13 @@ function renderJobs() {
             <span class="status-badge ${isActive?'active':'expired'}">${isActive?'Đang tuyển':'Hết hạn'}</span>
           </div>
           <button class="save-btn${saved?' saved':''}" data-id="${j.id}" onclick="event.stopPropagation();toggleSave('${j.id}')" title="${saved?'Bỏ lưu':'Lưu việc làm'}">${saved?SVG_BOOKMARK_FILL:SVG_BOOKMARK_OUT}</button>
-          <div style="display:flex;gap:12px;align-items:flex-start">
-            <div class="jcard-ico"><i data-lucide="${CAT_ICON[j.category]||'briefcase'}"></i></div>
-            <div style="flex:1;min-width:0">
-              <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
-                <div class="jcard-title">${j.title}</div>
-                ${j.gender?`<span style="font-size:11px;font-weight:600;color:var(--text-3);white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:3px">${ICONS.user}${j.gender==='Không yêu cầu'?'Nam và Nữ':j.gender}</span>`:''}
-              </div>
-              <div class="jcard-meta" style="margin-top:5px">
-                ${j.city?`<span>${ICONS.pin}${j.city}</span>`:''}
-                ${j.japanese?`<span>${ICONS.lang}${j.japanese}</span>`:''}
-              </div>
-            </div>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+            <div class="jcard-title">${j.title}</div>
+            ${j.gender?`<span style="font-size:11px;font-weight:600;color:var(--text-3);white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:3px">${ICONS.user}${j.gender==='Không yêu cầu'?'Nam và Nữ':j.gender}</span>`:''}
+          </div>
+          <div class="jcard-meta">
+            ${j.city?`<span>${ICONS.pin}${j.city}</span>`:''}
+            ${j.japanese?`<span>${ICONS.lang}${j.japanese}</span>`:''}
           </div>
           <div class="jcard-sal">${sal}</div>
           ${desc?`<div class="jcard-desc">${desc}</div>`:''}
@@ -2000,7 +1959,6 @@ function renderJobs() {
       <button class="jcard-cta" style="width:100%;background:var(--primary)" onclick="event.stopPropagation();openJob('${j.id}')">Xem chi tiết →</button>
     </div>`;
   }).join('');
-  lucide.createIcons();
 }
 
 function scrollToJob(id) {
