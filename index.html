@@ -488,6 +488,33 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   .track-nums{gap:24px}
 }
 
+/* ── MOBILE FRIENDLY (≤600px) ── */
+@media(max-width:600px){
+  /* Container padding */
+  .container,.nav-inner,.hero-in{padding-left:16px;padding-right:16px}
+
+  /* Mockup chiếm full width */
+  .mockup{max-width:100%;width:100%;border-radius:10px 10px 0 0}
+  .mock-body{padding:14px 14px}
+
+  /* Input/select ≥16px để Safari không auto-zoom */
+  .hf-select,.mock-field input,input,select,textarea{font-size:16px!important}
+
+  /* Touch targets tối thiểu 44×44px */
+  .save-btn{width:40px;height:40px;top:10px;right:10px}
+  .modal-close{width:44px;height:44px;border-radius:12px}
+  .jcard-cta{padding:13px 16px;font-size:14px}
+  .btn{padding:13px 22px}
+
+  /* Job card padding gọn hơn trên mobile */
+  .jcard{padding:16px}
+
+  /* Stats row gọn */
+  .sitem{padding:18px 8px}
+  .snum{font-size:22px}
+  .slab{font-size:11px}
+}
+
 /* ── JOB CARDS ── */
 .jobs-section{margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}
 .jobs-section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
