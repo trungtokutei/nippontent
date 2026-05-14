@@ -51,10 +51,10 @@ const SIDEBAR_HTML = '<!DOCTYPE html>' +
 '<div class="field"><label>Loại việc <span class="req">*</span></label>' +
 '<select id="type" onchange="onTypeChange()">' +
 '<option value="">-- Chọn --</option>' +
-'<option value="viet">Tokutei Đầu Việt (VN → JP)</option>' +
-'<option value="nhat">Tokutei Đầu Nhật (đang ở JP)</option>' +
-'<option value="both">Nhật - Việt (cả hai)</option>' +
-'<option value="kysis">Kỹ sư IT</option>' +
+'<option value="Việt">Tokutei Đầu Việt (VN → JP)</option>' +
+'<option value="Nhật">Tokutei Đầu Nhật (đang ở JP)</option>' +
+'<option value="Nhật-Việt">Nhật - Việt (cả hai)</option>' +
+'<option value="Kỹ sư">Kỹ sư IT</option>' +
 '</select></div>' +
 '<div class="field"><label>Trạng thái</label>' +
 '<select id="status"><option value="active">active</option><option value="inactive">inactive</option></select>' +
@@ -329,6 +329,24 @@ function saveJob(data) {
 }
 
 // ── SUPABASE ─────────────────────────────────────────────────
+// Map tên hiển thị trong sheet → code gửi lên Supabase/web
+function normalizeType(raw) {
+  const s = String(raw || '').trim();
+  const TABLE = {
+    'viet': 'viet', 'nhat': 'nhat', 'both': 'both', 'kysis': 'kysis',
+    'Việt': 'viet', 'Nhật': 'nhat', 'Nhật-Việt': 'both', 'Kỹ sư': 'kysis',
+    'việt': 'viet', 'nhật': 'nhat', 'nhật-việt': 'both', 'kỹ sư': 'kysis',
+  };
+  if (TABLE[s]) return TABLE[s];
+  // fallback: ghép chứa cả hai thì = both
+  const lo = s.toLowerCase();
+  if (lo.includes('k')) return 'kysis';
+  if (lo.includes('nh') && lo.includes('vi')) return 'both';
+  if (lo.includes('nh')) return 'nhat';
+  if (lo.includes('vi')) return 'viet';
+  return 'viet';
+}
+
 function getSupabaseHeaders() {
   return {
     'apikey':        SUPABASE_KEY,
@@ -339,9 +357,10 @@ function getSupabaseHeaders() {
 }
 
 function buildJob(r, i) {
+  const type = normalizeType(r[0]);
   return {
-    id:        String(r[0] || '').trim() + '-' + i,
-    type:      String(r[0] || '').trim(),
+    id:        type + '-' + i,
+    type:      type,
     title:     String(r[1] || '').trim(),
     category:  String(r[2] || '').trim(),
     city:      String(r[3] || '').trim(),
