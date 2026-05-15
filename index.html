@@ -2699,7 +2699,10 @@ async function syncFromGSheet() {
     if(!newJobs.length){statusEl.textContent='⚠️ Không có job nào (cột C - title bị trống?)';return;}
     // Push lên Supabase để mọi người dùng đều thấy
     statusEl.textContent=`⏳ Đang lưu lên Supabase...`;
-    const { error: sbErr } = await sb.from('jobs').upsert(newJobs);
+    // Xóa hết job cũ từ Sheet trước, rồi insert lại — đảm bảo inactive được áp dụng
+    const { error: delErr } = await sb.from('jobs').delete().like('id', 'gs_%');
+    if(delErr) { statusEl.textContent=`❌ Lỗi xóa job cũ: ${delErr.message}`; return; }
+    const { error: sbErr } = await sb.from('jobs').insert(newJobs);
     const manual = getJobs().filter(j=>!j.id.startsWith('gs_'));
     saveJobs([...manual,...newJobs]);
     renderAdminJobs(); renderAdminSideStats(); updateCatCounts(); renderJobs(); renderHeroJobs();
