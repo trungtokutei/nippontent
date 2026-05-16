@@ -1870,11 +1870,22 @@ function renderFilterChips() {
   row.innerHTML = chips.join('');
 }
 
-function populateNganhSelect() {
+function populateNganhSelect(type) {
   const sel = document.getElementById('nganhSelect');
   if(!sel) return;
-  const cats = [...new Set(Object.keys(CAT_ICON))].sort((a,b) => a.localeCompare(b,'vi'));
-  sel.innerHTML = '<option value="">Ngành nghề</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  const t = type || currentType || 'all';
+  if(t === 'kysis') {
+    sel.innerHTML = '<option value="">Ngành nghề</option>' +
+      NGANH_KYSIS_GROUPS.map(({g,items}) =>
+        `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
+      ).join('');
+  } else if(t === 'viet' || t === 'nhat') {
+    sel.innerHTML = '<option value="">Ngành nghề</option>' +
+      NGANH_TOKUTEI.map(([val,label]) => `<option value="${val}">${label}</option>`).join('');
+  } else {
+    const cats = [...new Set(Object.keys(CAT_ICON))].sort((a,b) => a.localeCompare(b,'vi'));
+    sel.innerHTML = '<option value="">Ngành nghề</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
 }
 function clearSearch() {
   currentSearch = '';
@@ -2182,6 +2193,7 @@ function filterType(type) {
   const cls = {all:'on-all',viet:'on-viet',nhat:'on-nhat',kysis:'on-kysis'};
   const el = document.getElementById(map[type]);
   if(el) el.classList.add(cls[type]);
+  populateNganhSelect(type);
   const ns = document.getElementById('nganhSelect');
   if(ns) { ns.value = ''; ns.classList.remove('has-value'); }
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
