@@ -1533,20 +1533,21 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
           <div style="margin-top:10px;font-size:12px;color:var(--text-2);line-height:2;background:var(--surface-alt);padding:12px;border-radius:8px">
             <strong>Hàng 1: tiêu đề cột (bỏ qua khi đồng bộ)</strong><br>
             A: <code>type</code> — viet / nhat / both / kysis<br>
-            B: <code>category</code> — Ngành nghề<br>
-            C: <code>title</code> — Tên vị trí ⭐ <em>bắt buộc</em><br>
-            D: <code>city</code> — Tỉnh / Khu vực<br>
-            E: <code>salary</code> — Mức lương<br>
-            F: <code>japanese</code> — N1 / N2 / N3 / N4 / N5 / không yêu cầu<br>
-            G: <code>gender</code> — Nam / Nữ / Không yêu cầu<br>
-            H: <code>workHours</code> — Giờ làm việc<br>
-            I: <code>daysOff</code> — Ngày nghỉ<br>
-            J: <code>overtime</code> — Tăng ca<br>
-            K: <code>raise</code> — Tăng lương<br>
-            L: <code>bonus</code> — Thưởng<br>
-            M: <code>housing</code> — Nhà ở<br>
-            N: <code>desc</code> — Mô tả công việc<br>
-            O: <code>status</code> — active / expired (mặc định: active)
+            B: <code>title</code> — Tên vị trí ⭐ <em>bắt buộc</em><br>
+            C: <code>category</code> — Ngành chính (dropdown)<br>
+            D: <code>category_sub</code> — Ngành phụ (nhập tay, để trống nếu không cần)<br>
+            E: <code>city</code> — Tỉnh / Khu vực<br>
+            F: <code>salary</code> — Mức lương<br>
+            G: <code>japanese</code> — N1 / N2 / N3 / N4 / N5 / không yêu cầu<br>
+            H: <code>gender</code> — Nam / Nữ / Không yêu cầu<br>
+            I: <code>workHours</code> — Giờ làm việc<br>
+            J: <code>daysOff</code> — Ngày nghỉ<br>
+            K: <code>overtime</code> — Tăng ca<br>
+            L: <code>raise</code> — Tăng lương<br>
+            M: <code>bonus</code> — Thưởng<br>
+            N: <code>housing</code> — Nhà ở<br>
+            O: <code>desc</code> — Mô tả công việc<br>
+            P: <code>status</code> — active / expired (mặc định: active)
           </div>
         </details>
       </div>
@@ -1748,7 +1749,7 @@ document.querySelectorAll('.anim,.stag').forEach(el => io.observe(el));
 // Hero mockup tab switcher
 const NGANH_TOKUTEI_GROUPS = [
   {g:'Chế biến thực phẩm', items:['Chế biến thực phẩm']},
-  {g:'① Gia công cơ khí - kim loại', items:['Đúc nóng','Đúc lạnh','Dập kim loại','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
+  {g:'① Gia công cơ khí - kim loại', items:['Đúc nóng','Đúc lạnh','Dập kim loại','Kim loại tấm','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
   {g:'② Lắp ráp điện - điện tử', items:['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
   {g:'③ Xử lý bề mặt kim loại', items:['Mạ điện','Xử lý oxy hóa nhôm (Anodize)']},
   {g:'Xây dựng', items:['Xây dựng']},
@@ -1772,15 +1773,15 @@ const NGANH_KYSIS_GROUPS = [
   {g:'Thực phẩm & Nông nghiệp', items:['Chế biến thực phẩm','Nông nghiệp']},
   {g:'Kinh tế & Ngôn ngữ', items:['Phiên dịch / Thông dịch','Xuất nhập khẩu','Quản trị kinh doanh / Marketing']},
 ];
-const NHOM_1_ITEMS = new Set(['Đúc nóng','Đúc lạnh','Dập kim loại','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
+const NHOM_1_ITEMS = new Set(['Đúc nóng','Đúc lạnh','Dập kim loại','Kim loại tấm','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
 const NHOM_2_ITEMS = new Set(['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
 
 function jobMatchesCat(jcat, selectedCat) {
   if(!jcat || !selectedCat) return false;
   const jcatLow = jcat.toLowerCase().trim();
   const selLow = selectedCat.toLowerCase().trim();
-  // Pipe-separated: check each part
-  const parts = jcat.split('|').map(s => s.trim().toLowerCase());
+  // Comma-separated: check each part
+  const parts = jcat.split(',').map(s => s.trim().toLowerCase());
   if(parts.some(p => p === selLow)) return true;
   // Group-level match: Nhóm 1 / Nhóm 2 / Nhóm 1+2
   const inNhom1 = NHOM_1_ITEMS.has(selectedCat);
@@ -1797,7 +1798,7 @@ function renderJobCat(cat) {
   if(c === 'Nhóm 1') return `<span class="jcard-cat jcat-nhom1">① Cơ khí - Kim loại</span>`;
   if(c === 'Nhóm 2') return `<span class="jcard-cat jcat-nhom2">② Điện - Điện tử</span>`;
   if(c === 'Nhóm 1+2') return `<span class="jcard-cat jcat-nhom1">① Cơ khí</span><span class="jcard-cat jcat-nhom2">② Điện tử</span>`;
-  const parts = c.split('|').map(s => s.trim()).filter(Boolean);
+  const parts = c.split(',').map(s => s.trim()).filter(Boolean);
   if(parts.length > 1) return parts.map(p => `<span class="jcard-cat">${p}</span>`).join('');
   return `<span class="jcard-cat">${c}</span>`;
 }
@@ -1957,7 +1958,7 @@ const NGANH_ICON_MAP = {
   'Nông nghiệp':'sprout','Vệ sinh tòa nhà':'sparkles','Bảo dưỡng ô tô':'car',
   'Lưu trú / Khách sạn':'building-2','Ngư nghiệp':'fish','Đóng tàu':'anchor',
   'Hàng không':'plane','Vận tải':'truck','Lâm nghiệp':'tree-pine','May':'scissors','In ấn':'printer',
-  'Đúc nóng':'flame','Đúc lạnh':'snowflake','Dập kim loại':'hammer','Tekko':'wrench',
+  'Đúc nóng':'flame','Đúc lạnh':'snowflake','Dập kim loại':'hammer','Kim loại tấm':'square','Tekko':'wrench',
   'Rèn':'hammer','Gia công cơ khí':'cog','Hoàn thiện sản phẩm':'sparkles',
   'Đúc nhựa':'box','Hàn':'zap','Sơn kim loại':'paintbrush-vertical',
   'Lắp ráp thiết bị điện':'plug','Kiểm tra máy móc':'scan-line','Bảo trì máy móc':'wrench',
@@ -2908,14 +2909,16 @@ async function syncFromGSheet() {
     const g = r => (r||'').trim();
     const newJobs = rows.slice(1).filter(r=>r.some(c=>c.trim())).map((r,i)=>({
       id:'gs_'+Date.now()+'_'+i,
-      type:g(r[0])||'viet', category:g(r[1]), title:g(r[2]),
-      city:g(r[3]), salary:g(r[4]), japanese:g(r[5]),
-      gender:g(r[6]), workHours:g(r[7]),
-      daysOff:g(r[8]), overtime:g(r[9]), raise:g(r[10]),
-      bonus:g(r[11]), housing:g(r[12]), desc:g(r[13]),
-      status:g(r[14])||'active'
+      type:g(r[0])||'viet',
+      title:g(r[1]),
+      category:[g(r[2]),g(r[3])].filter(Boolean).join(','),
+      city:g(r[4]), salary:g(r[5]), japanese:g(r[6]),
+      gender:g(r[7]), workHours:g(r[8]),
+      daysOff:g(r[9]), overtime:g(r[10]), raise:g(r[11]),
+      bonus:g(r[12]), housing:g(r[13]), desc:g(r[14]),
+      status:g(r[15])||'active'
     })).filter(j=>j.title);
-    if(!newJobs.length){statusEl.textContent='⚠️ Không có job nào (cột C - title bị trống?)';return;}
+    if(!newJobs.length){statusEl.textContent='⚠️ Không có job nào (cột B - title bị trống?)';return;}
     // Push lên Supabase để mọi người dùng đều thấy
     statusEl.textContent=`⏳ Đang lưu lên Supabase...`;
     // Xóa hết job cũ từ Sheet trước, rồi insert lại — đảm bảo inactive được áp dụng
