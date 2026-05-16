@@ -137,15 +137,6 @@ nav.scrolled{box-shadow:var(--sh)}
 .mock-field input{border:none;outline:none;flex:1;font-size:13px;color:var(--text-2);background:transparent;font-family:inherit;min-width:0}
 .mock-field input::placeholder{color:var(--text-3)}
 .mock-btn{background:var(--primary);color:#fff;border:none;border-radius:100px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer}
-.hero-filter{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.hf-row{display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(6px);transition:opacity .28s,transform .28s;pointer-events:none;height:0;overflow:hidden}
-.hf-row.show{opacity:1;transform:none;pointer-events:auto;height:auto;overflow:visible}
-.hf-num{font-size:11px;font-weight:800;color:var(--primary);background:var(--primary-soft);border-radius:50%;width:20px;height:20px;min-width:20px;display:flex;align-items:center;justify-content:center}
-.hf-select{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text-3);background:#fff;outline:none;font-family:inherit;transition:border-color .2s,color .2s;cursor:pointer;min-width:0}
-.hf-select:focus{border-color:var(--primary)}
-.hf-select.filled{border-color:var(--primary);color:var(--text-1);font-weight:600}
-.hf-btn{width:100%;opacity:0;transform:translateY(6px);transition:opacity .28s,transform .28s;pointer-events:none;height:0;overflow:hidden;padding:0;border:none}
-.hf-btn.show{opacity:1;transform:none;pointer-events:auto;height:auto;overflow:visible;padding:10px 20px}
 .mock-tags{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
 .tag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:100px;border:1px solid var(--border);background:#fff;color:var(--text-2)}
 .tag.on{background:var(--primary-soft);border-color:var(--primary);color:var(--primary)}
@@ -538,7 +529,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   .mock-body{padding:14px 14px}
 
   /* Input/select ≥16px để Safari không auto-zoom */
-  .hf-select,.mock-field input,input,select,textarea{font-size:16px!important}
+  .mock-field input,input,select,textarea{font-size:16px!important}
 
   /* Touch targets tối thiểu 44×44px */
   .jcard .save-btn{position:static;width:44px;height:44px}
@@ -961,30 +952,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
             <span class="mtt-name">Kỹ sư đầu Nhật</span>
             <span class="mtt-sub">Không cọc không phí</span>
           </button>
-        </div>
-        <div class="hero-filter">
-          <div class="hf-row show" id="hfRow1">
-            <span class="hf-num">1</span>
-            <select id="filterNganh" class="hf-select" onchange="hfNext(1)">
-              <option value="">Ngành nghề</option>
-            </select>
-          </div>
-          <div class="hf-row show" id="hfRow2">
-            <span class="hf-num">2</span>
-            <select id="filterTinh" class="hf-select" onchange="hfNext(2)">
-              <option value="">Khu vực</option>
-              <option value="Hokkaido">1. Hokkaido (北海道)</option>
-              <option value="Tohoku">2. Tohoku (東北) — Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima</option>
-              <option value="Kanto">3. Kanto (関東) — Tokyo, Kanagawa, Saitama, Chiba, Ibaraki, Tochigi, Gunma</option>
-              <option value="Chubu">4. Chubu (中部) — Aichi, Shizuoka, Niigata, Nagano, Toyama, Ishikawa, Fukui, Yamanashi, Mie</option>
-              <option value="Kansai">5. Kansai (関西) — Osaka, Hyogo, Kyoto, Shiga, Nara, Wakayama</option>
-              <option value="Chugoku">6. Chugoku (中国) — Hiroshima, Okayama, Yamaguchi, Tottori, Shimane</option>
-              <option value="Shikoku">7. Shikoku (四国) — Ehime, Kagawa, Tokushima, Kochi</option>
-              <option value="Kyushu">8. Kyushu (九州) — Fukuoka, Kumamoto, Nagasaki, Kagoshima, Oita, Miyazaki, Saga</option>
-              <option value="Okinawa">9. Okinawa (沖縄)</option>
-            </select>
-          </div>
-          <button class="mock-btn hf-btn show" id="hfSearchBtn" onclick="doHeroSearch()" style="display:inline-flex;align-items:center;gap:8px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg> Tìm kiếm việc làm phù hợp</button>
         </div>
         <div class="mock-jobs-wrap">
           <div class="jobs-panel on" id="panel-viet">
@@ -1778,27 +1745,12 @@ const NGANH_KYSIS_GROUPS = [
   {g:'Thực phẩm & Nông nghiệp', items:['Chế biến thực phẩm','Nông nghiệp']},
   {g:'Kinh tế & Ngôn ngữ', items:['Phiên dịch / Thông dịch','Xuất nhập khẩu','Quản trị kinh doanh / Marketing']},
 ];
-function updateNganhOptions(type) {
-  const sel = document.getElementById('filterNganh');
-  if(!sel) return;
-  if(type === 'kysis') {
-    sel.innerHTML = '<option value="">Ngành nghề</option>' +
-      NGANH_KYSIS_GROUPS.map(({g,items}) =>
-        `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
-      ).join('');
-  } else {
-    sel.innerHTML = '<option value="">Ngành nghề</option>' +
-      NGANH_TOKUTEI.map(([val,label]) => `<option value="${val}">${label}</option>`).join('');
-  }
-}
 function switchTab(type) {
   document.querySelectorAll('.mtt').forEach(b => b.classList.remove('on'));
   document.querySelector(`.mtt.${type}`).classList.add('on');
   document.querySelectorAll('.jobs-panel').forEach(p => p.classList.remove('on'));
   document.getElementById('panel-' + type).classList.add('on');
-  updateNganhOptions(type);
 }
-updateNganhOptions('viet');
 
 // ── JOB DATA ──
 const STORE_KEY  = 'tp_tokutei_jobs';
@@ -1883,23 +1835,6 @@ function doSearch(val) {
   renderJobs();
 }
 
-function hfNext(step) {
-  if(step === 1 && document.getElementById('filterNganh').value) {
-    document.getElementById('filterNganh').classList.add('filled');
-  }
-  if(step === 2 && document.getElementById('filterTinh').value) {
-    document.getElementById('filterTinh').classList.add('filled');
-  }
-}
-function doHeroSearch() {
-  const cat  = document.getElementById('filterNganh').value || null;
-  const pref = document.getElementById('filterTinh').value || null;
-  renderHeroJobs({cat, pref});
-  if(cat) setFilterNganh(cat, true);
-  if(pref) setFilterPref(pref, true);
-  const fb = document.getElementById('filterBar');
-  if(fb) setTimeout(() => fb.scrollIntoView({behavior:'smooth', block:'start'}), 100);
-}
 
 function setFilterNganh(val, skipSelect) {
   currentCat = val || null;
