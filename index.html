@@ -3243,7 +3243,9 @@ function adminSaveArticle() {
   initSampleArticles();
   renderArticlePreview();
   populateNganhSelect();
-  document.addEventListener('click', () => closeNganhDrop());
+  document.addEventListener('click', (e) => {
+    if(!document.getElementById('nganhSelectWrap')?.contains(e.target)) closeNganhDrop();
+  });
   // Supabase: load jobs + real-time
   syncFromSupabase();
   sb.channel('jobs_rt')
