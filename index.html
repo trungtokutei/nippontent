@@ -398,6 +398,9 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .tc.viet .tc-cta{background:var(--viet);color:#fff}.tc.viet .tc-cta:hover{background:#1a9e52}
 .tc.nhat .tc-cta{background:var(--nhat);color:#fff}.tc.nhat .tc-cta:hover{background:#2420c8}
 
+/* hero filter wrap */
+.hero-filter-wrap{max-width:720px;margin:0 auto;padding-bottom:48px}
+.hero-filter-wrap .filter-bar{margin-bottom:0;box-shadow:0 8px 32px rgba(0,0,0,.15);border:none}
 /* unified filter bar */
 .filter-bar{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
 .search-bar{position:relative;margin-bottom:12px}
@@ -952,81 +955,39 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   <div class="hero-in">
     <h1>Nippon Tokutei</h1>
     <p class="hero-sub">Hỗ trợ tìm, đăng ký ứng tuyển các đơn hàng Tokutei, Kỹ sư hai đầu Nhật - Việt</p>
-    <div class="hero-acts">
-      <a href="#categories" class="btn btn-outline btn-lg">Xem tất cả việc làm</a>
-    </div>
-    <div class="mockup">
-      <div class="mock-bar">
-        <div class="mock-dots"><span></span><span></span><span></span></div>
-        <div class="mock-url">Tìm việc Tokutei, Kỹ sư</div>
-      </div>
-      <div class="mock-body">
-        <div class="mock-type" id="mockTypeTabs">
-          <button class="mtt viet on" onclick="switchTab('viet')">
-            <span class="mtt-name">Tokutei đầu Việt</span>
-            <span class="mtt-sub">Phí thấp · Từ Việt Nam</span>
-          </button>
-          <button class="mtt nhat" onclick="switchTab('nhat')">
-            <span class="mtt-name">Tokutei đầu Nhật</span>
-            <span class="mtt-sub">Không cọc không phí</span>
-          </button>
-          <button class="mtt kysis" onclick="switchTab('kysis')">
-            <span class="mtt-name">Kỹ sư đầu Nhật</span>
-            <span class="mtt-sub">Không cọc không phí</span>
-          </button>
+    <div class="hero-filter-wrap">
+      <div class="filter-bar" id="filterBar">
+        <div class="search-bar">
+          <span class="search-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg></span>
+          <input id="searchInput" type="text" placeholder="Tìm theo tên việc, địa điểm, ngành nghề..." oninput="doSearch(this.value)" autocomplete="off">
+          <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
         </div>
-        <div class="mock-jobs-wrap">
-          <div class="jobs-panel on" id="panel-viet">
-            <div class="mjob">
-              <div class="mlogo" style="background:#356854">豊</div>
-              <div class="minfo"><div class="mtitle">Kỹ thuật viên chế biến thực phẩm</div><div class="mmeta">Toyota Foods · Aichi · N3 · ¥200,000/月</div></div>
-              <span class="jbadge jbadge-viet">Đầu Việt</span>
-            </div>
-            <div class="mjob">
-              <div class="mlogo" style="background:#E8305A">建</div>
-              <div class="minfo"><div class="mtitle">Công nhân xây dựng</div><div class="mmeta">Osaka Build · Osaka · N4 · ¥220,000/月</div></div>
-              <span class="jbadge jbadge-viet">Đầu Việt</span>
-            </div>
-            <div class="mjob">
-              <div class="mlogo" style="background:#22c55e">農</div>
-              <div class="minfo"><div class="mtitle">Nhân viên nông nghiệp</div><div class="mmeta">Hokkaido Farm · Hokkaido · N5 · ¥185,000/月</div></div>
-              <span class="jbadge jbadge-viet">Đầu Việt</span>
-            </div>
+        <div class="filter-type-row">
+          <button class="tf-btn on-all" id="tfAll" onclick="filterType('all')">Tất cả</button>
+          <button class="tf-btn" id="tfViet" onclick="filterType('viet')">Đầu Việt</button>
+          <button class="tf-btn" id="tfNhat" onclick="filterType('nhat')">Đầu Nhật</button>
+          <button class="tf-btn" id="tfKysis" onclick="filterType('kysis')">Kỹ sư</button>
+        </div>
+        <div class="filter-select-row">
+          <div class="cs-wrap" id="nganhSelectWrap">
+            <button class="cs-trigger" id="nganhTrigger" onclick="toggleNganhDrop(event)">
+              <span class="cs-trigger-label" id="nganhLabel">Ngành nghề</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cs-panel" id="nganhPanel"></div>
           </div>
-          <div class="jobs-panel" id="panel-kysis">
-            <div class="mjob">
-              <div class="mlogo" style="background:#d97706">エ</div>
-              <div class="minfo"><div class="mtitle">Kỹ sư IT (システムエンジニア)</div><div class="mmeta">Tokyo Tech · Tokyo · N3 · ¥300,000/月</div></div>
-              <span class="jbadge jbadge-kysis">Kỹ sư</span>
-            </div>
-            <div class="mjob">
-              <div class="mlogo" style="background:#d97706">機</div>
-              <div class="minfo"><div class="mtitle">Kỹ sư cơ khí (機械設計)</div><div class="mmeta">Osaka Mfg · Osaka · N3 · ¥280,000/月</div></div>
-              <span class="jbadge jbadge-kysis">Kỹ sư</span>
-            </div>
-            <div class="mjob">
-              <div class="mlogo" style="background:#d97706">建</div>
-              <div class="minfo"><div class="mtitle">Kỹ sư xây dựng (施工管理)</div><div class="mmeta">Nagoya Build · Aichi · N2 · ¥320,000/月</div></div>
-              <span class="jbadge jbadge-kysis">Kỹ sư</span>
-            </div>
-          </div>
-          <div class="jobs-panel" id="panel-nhat">
-            <div class="mjob">
-              <div class="mlogo" style="background:#2a5442">護</div>
-              <div class="minfo"><div class="mtitle">Điều dưỡng viên (介護福祉)</div><div class="mmeta">Sapporo Care · Hokkaido · N3 · ¥230,000/月</div></div>
-              <span class="jbadge jbadge-nhat">Đầu Nhật</span>
-            </div>
-            <div class="mjob">
-              <div class="mlogo" style="background:#f59e0b">溶</div>
-              <div class="minfo"><div class="mtitle">Thợ hàn công nghiệp</div><div class="mmeta">Kawasaki Steel · Kanagawa · N4 · ¥250,000/月</div></div>
-              <span class="jbadge jbadge-nhat">Đầu Nhật</span>
-            </div>
-            <div class="mjob">
-              <div class="mlogo" style="background:#0ea5e9">食</div>
-              <div class="minfo"><div class="mtitle">Nhân viên chế biến thuỷ sản</div><div class="mmeta">Nagasaki Fish · Nagasaki · N4 · ¥195,000/月</div></div>
-              <span class="jbadge jbadge-nhat">Đầu Nhật</span>
-            </div>
-          </div>
+          <select id="khuvucSelect" class="filter-select" onchange="setFilterPref(this.value)">
+            <option value="">Khu vực</option>
+            <option value="Hokkaido">Hokkaido (北海道)</option>
+            <option value="Tohoku">Tohoku — Aomori, Miyagi...</option>
+            <option value="Kanto">Kanto — Tokyo, Kanagawa...</option>
+            <option value="Chubu">Chubu — Aichi, Shizuoka...</option>
+            <option value="Kansai">Kansai — Osaka, Kyoto...</option>
+            <option value="Chugoku">Chugoku — Hiroshima...</option>
+            <option value="Shikoku">Shikoku — Ehime, Kagawa...</option>
+            <option value="Kyushu">Kyushu — Fukuoka...</option>
+            <option value="Okinawa">Okinawa (沖縄)</option>
+          </select>
         </div>
       </div>
     </div>
@@ -1109,42 +1070,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
       </div>
     </div>
     <div class="jobs-section">
-      <!-- FILTER BAR -->
-      <div class="filter-bar" id="filterBar">
-        <div class="search-bar">
-          <span class="search-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg></span>
-          <input id="searchInput" type="text" placeholder="Tìm theo tên việc, địa điểm, ngành nghề..." oninput="doSearch(this.value)" autocomplete="off">
-          <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
-        </div>
-        <div class="filter-type-row">
-          <button class="tf-btn on-all" id="tfAll" onclick="filterType('all')">Tất cả</button>
-          <button class="tf-btn" id="tfViet" onclick="filterType('viet')">Đầu Việt</button>
-          <button class="tf-btn" id="tfNhat" onclick="filterType('nhat')">Đầu Nhật</button>
-          <button class="tf-btn" id="tfKysis" onclick="filterType('kysis')">Kỹ sư</button>
-        </div>
-        <div class="filter-select-row">
-          <div class="cs-wrap" id="nganhSelectWrap">
-            <button class="cs-trigger" id="nganhTrigger" onclick="toggleNganhDrop(event)">
-              <span class="cs-trigger-label" id="nganhLabel">Ngành nghề</span>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="cs-panel" id="nganhPanel"></div>
-          </div>
-          <select id="khuvucSelect" class="filter-select" onchange="setFilterPref(this.value)">
-            <option value="">Khu vực</option>
-            <option value="Hokkaido">Hokkaido (北海道)</option>
-            <option value="Tohoku">Tohoku — Aomori, Miyagi...</option>
-            <option value="Kanto">Kanto — Tokyo, Kanagawa...</option>
-            <option value="Chubu">Chubu — Aichi, Shizuoka...</option>
-            <option value="Kansai">Kansai — Osaka, Kyoto...</option>
-            <option value="Chugoku">Chugoku — Hiroshima...</option>
-            <option value="Shikoku">Shikoku — Ehime, Kagawa...</option>
-            <option value="Kyushu">Kyushu — Fukuoka...</option>
-            <option value="Okinawa">Okinawa (沖縄)</option>
-          </select>
-        </div>
-        <div class="filter-chips-row" id="filterChipsRow"></div>
-      </div>
+      <div class="filter-chips-row" id="filterChipsRow"></div>
       <div class="jobs-section-hd">
         <div class="jobs-section-title">Danh sách việc làm</div>
         <div class="jobs-count" id="jobsCount">0 việc làm</div>
