@@ -426,12 +426,14 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .cs-trigger.open svg{transform:rotate(180deg)}
 .cs-panel{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;max-width:320px;background:#fff;border:1.5px solid var(--border);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.1);z-index:200;display:none;max-height:340px;overflow-y:auto}
 .cs-panel.open{display:block}
-.cs-flat-item{display:block;width:100%;padding:9px 16px;background:none;border:none;text-align:left;font-size:13px;color:var(--text-1);cursor:pointer;font-family:inherit;white-space:nowrap}
+.cs-ico{font-size:14px;flex-shrink:0;width:20px;text-align:center;line-height:1}
+.cs-flat-item{display:flex;align-items:center;gap:7px;width:100%;padding:9px 16px;background:none;border:none;text-align:left;font-size:13px;color:var(--text-1);cursor:pointer;font-family:inherit;white-space:nowrap}
 .cs-flat-item:hover,.cs-flat-item:focus{background:var(--surface-alt,#f4f4f6);outline:none}
 .cs-flat-item.cs-selected{color:var(--primary);font-weight:600}
-.cs-group-hd{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;padding:9px 12px 9px 16px;background:none;border:none;text-align:left;font-size:11px;font-weight:700;color:var(--text-2);cursor:pointer;font-family:inherit;letter-spacing:.03em;text-transform:uppercase}
+.cs-group-hd{display:flex;align-items:center;gap:7px;width:100%;padding:9px 12px 9px 16px;background:none;border:none;text-align:left;font-size:11px;font-weight:700;color:var(--text-2);cursor:pointer;font-family:inherit;letter-spacing:.03em;text-transform:uppercase}
+.cs-group-hd span:not(.cs-ico){flex:1}
 .cs-group-hd:hover{background:var(--surface-alt,#f4f4f6)}
-.cs-group-hd svg{flex-shrink:0;transition:transform .2s}
+.cs-group-hd svg{flex-shrink:0;margin-left:auto;transition:transform .2s}
 .cs-group-hd.open svg{transform:rotate(180deg)}
 .cs-group-items{display:none;padding:0 0 4px 0}
 .cs-group-items.open{display:block}
@@ -1915,12 +1917,25 @@ function renderFilterChips() {
   row.innerHTML = chips.join('');
 }
 
+const NGANH_ICONS = {
+  'Chế biến thực phẩm':'🍱','① Gia công cơ khí - kim loại':'⚙️','② Lắp ráp điện - điện tử':'⚡',
+  '③ Xử lý bề mặt kim loại':'🔩','Xây dựng':'🏗️','Điều dưỡng':'💊','Nhà hàng':'🍽️',
+  'Nông nghiệp':'🌾','Vệ sinh tòa nhà':'✨','Bảo dưỡng ô tô':'🚗','Lưu trú / Khách sạn':'🏨',
+  'Ngư nghiệp':'🐟','Đóng tàu':'⚓','Hàng không':'✈️','Vận tải':'🚚',
+  'Lâm nghiệp':'🌲','May':'✂️','In ấn':'🖨️',
+  'Kỹ thuật & Sản xuất':'🔧','Công nghệ thông tin (IT)':'💻',
+  'Thực phẩm & Nông nghiệp':'🌱','Kinh tế & Ngôn ngữ':'📊',
+};
+function getNganhIcon(name) {
+  const key = name.replace('Kỹ sư — ','');
+  return NGANH_ICONS[key] ? `<span class="cs-ico">${NGANH_ICONS[key]}</span>` : '';
+}
 function buildNganhPanelHTML(groups) {
   const chevron = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
   return groups.map(({g,items}) =>
     items.length === 1
-      ? `<button class="cs-flat-item" data-val="${items[0]}">${items[0]}</button>`
-      : `<button class="cs-group-hd"><span>${g}</span>${chevron}</button>
+      ? `<button class="cs-flat-item" data-val="${items[0]}">${getNganhIcon(items[0])}${items[0]}</button>`
+      : `<button class="cs-group-hd">${getNganhIcon(g)}<span>${g}</span>${chevron}</button>
          <div class="cs-group-items">${items.map(v=>`<button class="cs-flat-item" data-val="${v}">${v}</button>`).join('')}</div>`
   ).join('');
 }
