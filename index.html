@@ -1721,10 +1721,15 @@ document.querySelectorAll('.anim,.stag').forEach(el => io.observe(el));
 
 // Hero mockup tab switcher
 const NGANH_TOKUTEI_GROUPS = [
+  {g:'Chế biến thực phẩm', items:['Chế biến thực phẩm']},
   {g:'① Gia công cơ khí - kim loại', items:['Đúc nóng','Đúc lạnh','Dập kim loại','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
   {g:'② Lắp ráp điện - điện tử', items:['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
   {g:'③ Xử lý bề mặt kim loại', items:['Mạ điện','Xử lý oxy hóa nhôm (Anodize)']},
-  {g:'Các ngành Tokutei khác', items:['Chế biến thực phẩm','Xây dựng','Điều dưỡng','Nhà hàng','Vệ sinh tòa nhà','Bảo dưỡng ô tô','Nông nghiệp','Lưu trú / Khách sạn','Ngư nghiệp','Đóng tàu','Hàng không','Vận tải','Lâm nghiệp','May','In ấn']},
+  {g:'Xây dựng', items:['Xây dựng']},
+  {g:'Điều dưỡng', items:['Điều dưỡng']},
+  {g:'Nhà hàng', items:['Nhà hàng']},
+  {g:'Nông nghiệp', items:['Nông nghiệp']},
+  {g:'Các ngành Tokutei khác', items:['Vệ sinh tòa nhà','Bảo dưỡng ô tô','Lưu trú / Khách sạn','Ngư nghiệp','Đóng tàu','Hàng không','Vận tải','Lâm nghiệp','May','In ấn']},
 ];
 const NGANH_KYSIS_GROUPS = [
   {g:'Kỹ thuật & Sản xuất', items:['Cơ khí','Điện - Điện tử','Xây dựng','Hóa học & Vật liệu','Ô tô']},
@@ -1869,12 +1874,16 @@ function populateNganhSelect(type) {
   } else if(t === 'viet' || t === 'nhat') {
     sel.innerHTML = '<option value="">Ngành nghề</option>' +
       NGANH_TOKUTEI_GROUPS.map(({g,items}) =>
-        `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
+        items.length === 1
+          ? `<option value="${items[0]}">${items[0]}</option>`
+          : `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
       ).join('');
   } else {
     sel.innerHTML = '<option value="">Ngành nghề</option>' +
       NGANH_TOKUTEI_GROUPS.map(({g,items}) =>
-        `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
+        items.length === 1
+          ? `<option value="${items[0]}">${items[0]}</option>`
+          : `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
       ).join('') +
       NGANH_KYSIS_GROUPS.map(({g,items}) =>
         `<optgroup label="Kỹ sư — ${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
