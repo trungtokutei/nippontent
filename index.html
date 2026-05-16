@@ -1990,7 +1990,10 @@ function renderJobs() {
   const container = document.getElementById('jobsList');
   if(!container) return;
   let jobs = getJobs().filter(j => j.status === 'active');
-  if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
+  if(currentType === 'viet') jobs = jobs.filter(j => j.type === 'viet' || j.type === 'both');
+  else if(currentType === 'nhat') jobs = jobs.filter(j => j.type === 'nhat' || j.type === 'both');
+  else if(currentType === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
+  else if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
   else if(currentGroup === 'tokutei') jobs = jobs.filter(j => j.type !== 'kysis');
   if(currentCat) jobs = jobs.filter(j => (j.category||'').toLowerCase().includes(currentCat.toLowerCase()));
   if(currentPref) {
