@@ -426,7 +426,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .cs-trigger.open svg{transform:rotate(180deg)}
 .cs-panel{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;max-width:320px;background:#fff;border:1.5px solid var(--border);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.1);z-index:200;display:none;max-height:340px;overflow-y:auto}
 .cs-panel.open{display:block}
-.cs-ico{font-size:14px;flex-shrink:0;width:20px;text-align:center;line-height:1}
+.cs-ico{width:15px;height:15px;flex-shrink:0;stroke-width:1.8;color:var(--text-3)}
 .cs-flat-item{display:flex;align-items:center;gap:7px;width:100%;padding:9px 16px;background:none;border:none;text-align:left;font-size:13px;color:var(--text-1);cursor:pointer;font-family:inherit;white-space:nowrap}
 .cs-flat-item:hover,.cs-flat-item:focus{background:var(--surface-alt,#f4f4f6);outline:none}
 .cs-flat-item.cs-selected{color:var(--primary);font-weight:600}
@@ -1917,18 +1917,32 @@ function renderFilterChips() {
   row.innerHTML = chips.join('');
 }
 
-const NGANH_ICONS = {
-  'Chế biến thực phẩm':'🍱','① Gia công cơ khí - kim loại':'⚙️','② Lắp ráp điện - điện tử':'⚡',
-  '③ Xử lý bề mặt kim loại':'🔩','Xây dựng':'🏗️','Điều dưỡng':'💊','Nhà hàng':'🍽️',
-  'Nông nghiệp':'🌾','Vệ sinh tòa nhà':'✨','Bảo dưỡng ô tô':'🚗','Lưu trú / Khách sạn':'🏨',
-  'Ngư nghiệp':'🐟','Đóng tàu':'⚓','Hàng không':'✈️','Vận tải':'🚚',
-  'Lâm nghiệp':'🌲','May':'✂️','In ấn':'🖨️',
-  'Kỹ thuật & Sản xuất':'🔧','Công nghệ thông tin (IT)':'💻',
-  'Thực phẩm & Nông nghiệp':'🌱','Kinh tế & Ngôn ngữ':'📊',
+const NGANH_ICON_MAP = {
+  'Chế biến thực phẩm':'utensils',
+  '① Gia công cơ khí - kim loại':'factory',
+  '② Lắp ráp điện - điện tử':'cpu',
+  '③ Xử lý bề mặt kim loại':'layers',
+  'Xây dựng':'hard-hat','Điều dưỡng':'heart-pulse','Nhà hàng':'chef-hat',
+  'Nông nghiệp':'sprout','Vệ sinh tòa nhà':'sparkles','Bảo dưỡng ô tô':'car',
+  'Lưu trú / Khách sạn':'building-2','Ngư nghiệp':'fish','Đóng tàu':'anchor',
+  'Hàng không':'plane','Vận tải':'truck','Lâm nghiệp':'tree-pine','May':'scissors','In ấn':'printer',
+  'Đúc nóng':'flame','Đúc lạnh':'snowflake','Dập kim loại':'hammer','Tekko':'wrench',
+  'Rèn':'hammer','Gia công cơ khí':'cog','Hoàn thiện sản phẩm':'sparkles',
+  'Đúc nhựa':'box','Hàn':'zap','Sơn kim loại':'paintbrush-vertical',
+  'Lắp ráp thiết bị điện':'plug','Kiểm tra máy móc':'scan-line','Bảo trì máy móc':'wrench',
+  'Đóng gói công nghiệp':'package','Lắp ráp thiết bị điện tử':'circuit-board',
+  'Sản xuất bảng mạch in (PCB)':'circuit-board','Mạ điện':'droplets','Xử lý oxy hóa nhôm (Anodize)':'layers',
+  'Kỹ thuật & Sản xuất':'wrench','Công nghệ thông tin (IT)':'laptop',
+  'Thực phẩm & Nông nghiệp':'sprout','Kinh tế & Ngôn ngữ':'trending-up',
+  'Cơ khí':'cog','Điện - Điện tử':'zap','Hóa học & Vật liệu':'flask-conical','Ô tô':'car',
+  'Lập trình viên':'laptop','Kỹ sư hệ thống / Mạng':'server','AI & Data Science':'brain',
+  'Phiên dịch / Thông dịch':'languages','Xuất nhập khẩu':'package',
+  'Quản trị kinh doanh / Marketing':'trending-up',
 };
 function getNganhIcon(name) {
   const key = name.replace('Kỹ sư — ','');
-  return NGANH_ICONS[key] ? `<span class="cs-ico">${NGANH_ICONS[key]}</span>` : '';
+  const ico = NGANH_ICON_MAP[key];
+  return ico ? `<i data-lucide="${ico}" class="cs-ico"></i>` : '';
 }
 function buildNganhPanelHTML(groups) {
   const chevron = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
@@ -1971,6 +1985,7 @@ function populateNganhSelect(type) {
     panel.innerHTML = buildNganhPanelHTML(NGANH_TOKUTEI_GROUPS) +
       buildNganhPanelHTML(NGANH_KYSIS_GROUPS.map(({g,items}) => ({g:`Kỹ sư — ${g}`,items})));
   }
+  if(window.lucide) lucide.createIcons();
 }
 function clearSearch() {
   currentSearch = '';
