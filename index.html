@@ -1042,72 +1042,9 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   </div>
 </div>
 
-<!-- CATEGORIES -->
+<!-- JOBS -->
 <section id="categories">
   <div class="container">
-    <div class="sec-hd anim">
-      <h2 class="sec-title">Tìm việc theo ngành nghề</h2>
-      <p class="sec-sub">Lựa chọn công việc phù hợp với visa và chứng chỉ/bằng cấp của bạn</p>
-    </div>
-    <!-- Cấp 1: chọn nhóm -->
-    <div class="group-grid anim" id="groupGrid">
-      <button class="group-card" onclick="selectGroup('tokutei')">
-        <div class="group-ico"><i data-lucide="factory"></i></div>
-        <div class="group-name">Tokutei</div>
-        <div class="group-sub">Thực phẩm · Xây dựng · Điều dưỡng · 17 ngành</div>
-        <div class="group-count" id="gc-tokutei">0 việc</div>
-      </button>
-      <button class="group-card" onclick="selectGroup('kysis')">
-        <div class="group-ico"><i data-lucide="laptop"></i></div>
-        <div class="group-name">Kỹ sư</div>
-        <div class="group-sub">IT · Cơ khí · Điện tử · 13 ngành</div>
-        <div class="group-count" id="gc-kysis">0 việc</div>
-      </button>
-    </div>
-
-    <!-- Cấp 2: ngành con (ẩn cho đến khi chọn nhóm) -->
-    <div id="subcatLevel" style="display:none">
-      <div class="subcat-hd">
-        <button class="back-btn" onclick="backToGroups()">← Quay lại</button>
-        <span class="subcat-title" id="subcatTitle"></span>
-      </div>
-      <!-- Tokutei: 17 ngành -->
-      <div class="cat-grid stag" id="catGridTokutei" style="display:none">
-        <a href="#" class="ccat" data-cat="Chế biến thực phẩm" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="utensils"></i></span><div class="ccat-n">Chế biến thực phẩm</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nhóm ngành 1 (Cơ khí)" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="factory"></i></span><div class="ccat-n">Nhóm ngành 1 (Cơ khí)</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nhóm ngành 2 (Điện tử)" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="cpu"></i></span><div class="ccat-n">Nhóm ngành 2 (Điện tử)</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Xây dựng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="hard-hat"></i></span><div class="ccat-n">Xây dựng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Điều dưỡng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="heart-pulse"></i></span><div class="ccat-n">Điều dưỡng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nhà hàng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="chef-hat"></i></span><div class="ccat-n">Nhà hàng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Vệ sinh tòa nhà" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="sparkles"></i></span><div class="ccat-n">Vệ sinh tòa nhà</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Bảo dưỡng ô tô" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="car"></i></span><div class="ccat-n">Bảo dưỡng ô tô</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nông nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="sprout"></i></span><div class="ccat-n">Nông nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Lưu trú / Khách sạn" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="building-2"></i></span><div class="ccat-n">Lưu trú / Khách sạn</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Ngư nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="fish"></i></span><div class="ccat-n">Ngư nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Đóng tàu" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="anchor"></i></span><div class="ccat-n">Đóng tàu</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Hàng không" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="plane"></i></span><div class="ccat-n">Hàng không</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Vận tải" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="truck"></i></span><div class="ccat-n">Vận tải</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Lâm nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="tree-pine"></i></span><div class="ccat-n">Lâm nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="May" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="scissors"></i></span><div class="ccat-n">May</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="In ấn" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="printer"></i></span><div class="ccat-n">In ấn</div><div class="ccat-c">0 việc</div></a>
-      </div>
-      <!-- Kỹ sư: 13 ngành / 4 nhóm -->
-      <div class="cat-grid stag" id="catGridKysis" style="display:none">
-        <a href="#" class="ccat" data-cat="Cơ khí" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="cog"></i></span><div class="ccat-n">Cơ khí</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Điện - Điện tử" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="zap"></i></span><div class="ccat-n">Điện - Điện tử</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Xây dựng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="hard-hat"></i></span><div class="ccat-n">Xây dựng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Hóa học & Vật liệu" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="flask-conical"></i></span><div class="ccat-n">Hóa học & Vật liệu</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Ô tô" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="car"></i></span><div class="ccat-n">Ô tô</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Lập trình viên" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="laptop"></i></span><div class="ccat-n">Lập trình viên</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Kỹ sư hệ thống / Mạng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="server"></i></span><div class="ccat-n">Hệ thống / Mạng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="AI & Data Science" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="brain"></i></span><div class="ccat-n">AI & Data Science</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Chế biến thực phẩm" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="utensils"></i></span><div class="ccat-n">Chế biến thực phẩm</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nông nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="sprout"></i></span><div class="ccat-n">Nông nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Phiên dịch / Thông dịch" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="languages"></i></span><div class="ccat-n">Phiên dịch</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Xuất nhập khẩu" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="package"></i></span><div class="ccat-n">Xuất nhập khẩu</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Quản trị kinh doanh / Marketing" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="trending-up"></i></span><div class="ccat-n">Kinh doanh / Marketing</div><div class="ccat-c">0 việc</div></a>
-      </div>
-    </div>
     <div class="jobs-section">
       <!-- FILTER BAR -->
       <div class="filter-bar" id="filterBar">
