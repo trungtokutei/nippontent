@@ -578,7 +578,9 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .jcard{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:11px;transition:transform .2s,box-shadow .2s;position:relative}
 .jcard:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
 .jcard-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-right:36px}
-.jcard-cat{font-size:11px;color:var(--text-3);background:var(--surface-alt);padding:3px 9px;border-radius:100px;white-space:nowrap}
+.jcard-cat{font-size:11px;color:var(--text-3);background:var(--surface-alt);padding:3px 9px;border-radius:100px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.jcat-nhom1{background:#fff3e0;color:#b45309}
+.jcat-nhom2{background:#e8e8ff;color:var(--nhat,#2D2CDB)}
 .jcard-title{font-size:15px;font-weight:700;color:var(--text-1);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .jcard-meta{display:flex;flex-wrap:wrap;gap:6px}
 .jcard-meta span{font-size:12px;color:var(--text-2);display:inline-flex;align-items:center;gap:4px}
@@ -1770,6 +1772,35 @@ const NGANH_KYSIS_GROUPS = [
   {g:'Thực phẩm & Nông nghiệp', items:['Chế biến thực phẩm','Nông nghiệp']},
   {g:'Kinh tế & Ngôn ngữ', items:['Phiên dịch / Thông dịch','Xuất nhập khẩu','Quản trị kinh doanh / Marketing']},
 ];
+const NHOM_1_ITEMS = new Set(['Đúc nóng','Đúc lạnh','Dập kim loại','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
+const NHOM_2_ITEMS = new Set(['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
+
+function jobMatchesCat(jcat, selectedCat) {
+  if(!jcat || !selectedCat) return false;
+  const jcatLow = jcat.toLowerCase().trim();
+  const selLow = selectedCat.toLowerCase().trim();
+  // Pipe-separated: check each part
+  const parts = jcat.split('|').map(s => s.trim().toLowerCase());
+  if(parts.some(p => p === selLow)) return true;
+  // Group-level match: Nhóm 1 / Nhóm 2 / Nhóm 1+2
+  const inNhom1 = NHOM_1_ITEMS.has(selectedCat);
+  const inNhom2 = NHOM_2_ITEMS.has(selectedCat);
+  if(jcatLow === 'nhóm 1' && inNhom1) return true;
+  if(jcatLow === 'nhóm 2' && inNhom2) return true;
+  if(jcatLow === 'nhóm 1+2' && (inNhom1 || inNhom2)) return true;
+  return false;
+}
+
+function renderJobCat(cat) {
+  if(!cat) return '';
+  const c = cat.trim();
+  if(c === 'Nhóm 1') return `<span class="jcard-cat jcat-nhom1">① Cơ khí - Kim loại</span>`;
+  if(c === 'Nhóm 2') return `<span class="jcard-cat jcat-nhom2">② Điện - Điện tử</span>`;
+  if(c === 'Nhóm 1+2') return `<span class="jcard-cat jcat-nhom1">① Cơ khí</span><span class="jcard-cat jcat-nhom2">② Điện tử</span>`;
+  const parts = c.split('|').map(s => s.trim()).filter(Boolean);
+  if(parts.length > 1) return parts.map(p => `<span class="jcard-cat">${p}</span>`).join('');
+  return `<span class="jcard-cat">${c}</span>`;
+}
 function switchTab(type) {
   document.querySelectorAll('.mtt').forEach(b => b.classList.remove('on'));
   document.querySelector(`.mtt.${type}`).classList.add('on');
@@ -2109,7 +2140,7 @@ function renderJobs() {
   else if(currentType === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
   else if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
   else if(currentGroup === 'tokutei') jobs = jobs.filter(j => j.type !== 'kysis');
-  if(currentCat) jobs = jobs.filter(j => (j.category||'').toLowerCase().includes(currentCat.toLowerCase()));
+  if(currentCat) jobs = jobs.filter(j => jobMatchesCat(j.category||'', currentCat));
   if(currentPref) {
     const REGIONS={'Hokkaido':['Hokkaido'],'Tohoku':['Aomori','Iwate','Miyagi','Akita','Yamagata','Fukushima'],'Kanto':['Ibaraki','Tochigi','Gunma','Saitama','Chiba','Tokyo','Kanagawa'],'Chubu':['Niigata','Toyama','Ishikawa','Fukui','Yamanashi','Nagano','Shizuoka','Aichi','Mie'],'Kansai':['Shiga','Kyoto','Osaka','Hyogo','Nara','Wakayama'],'Chugoku':['Tottori','Shimane','Okayama','Hiroshima','Yamaguchi'],'Shikoku':['Tokushima','Kagawa','Ehime','Kochi'],'Kyushu':['Fukuoka','Saga','Nagasaki','Kumamoto','Oita','Miyazaki','Kagoshima'],'Okinawa':['Okinawa']};
     const prefList = REGIONS[currentPref];
@@ -2182,7 +2213,7 @@ function renderJobs() {
       <div style="display:flex;flex-direction:column;gap:10px">
           <div class="jcard-top">
             ${j.type==='both'?`<span class="jbadge jbadge-viet">Đầu Việt</span><span class="jbadge jbadge-nhat">Đầu Nhật</span>`:`<span class="jbadge jbadge-${j.type}">${j.type==='viet'?'Đầu Việt':j.type==='kysis'?'Kỹ sư':'Đầu Nhật'}</span>`}
-            <span class="jcard-cat">${j.category||''}</span>
+            ${renderJobCat(j.category||'')}
             <span class="status-badge ${isActive?'active':'expired'}">${isActive?'Đang tuyển':'Hết hạn'}</span>
           </div>
           <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
