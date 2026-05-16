@@ -418,6 +418,24 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .filter-select{flex:1;min-width:130px;padding:9px 28px 9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;color:var(--text-1);background:#fff;outline:none;cursor:pointer;transition:border .2s;font-family:inherit;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .filter-select:focus{border-color:var(--primary)}
 .filter-select.has-value{border-color:var(--primary);color:var(--primary)}
+.cs-wrap{position:relative;flex:1;min-width:130px}
+.cs-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px 9px 12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;font-family:inherit;text-align:left;transition:border .2s,color .2s;white-space:nowrap;overflow:hidden}
+.cs-trigger.has-value{border-color:var(--primary);color:var(--primary)}
+.cs-trigger-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cs-trigger svg{flex-shrink:0;transition:transform .2s}
+.cs-trigger.open svg{transform:rotate(180deg)}
+.cs-panel{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;max-width:320px;background:#fff;border:1.5px solid var(--border);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.1);z-index:200;display:none;max-height:340px;overflow-y:auto}
+.cs-panel.open{display:block}
+.cs-flat-item{display:block;width:100%;padding:9px 16px;background:none;border:none;text-align:left;font-size:13px;color:var(--text-1);cursor:pointer;font-family:inherit;white-space:nowrap}
+.cs-flat-item:hover,.cs-flat-item:focus{background:var(--surface-alt,#f4f4f6);outline:none}
+.cs-flat-item.cs-selected{color:var(--primary);font-weight:600}
+.cs-group-hd{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;padding:9px 12px 9px 16px;background:none;border:none;text-align:left;font-size:11px;font-weight:700;color:var(--text-2);cursor:pointer;font-family:inherit;letter-spacing:.03em;text-transform:uppercase}
+.cs-group-hd:hover{background:var(--surface-alt,#f4f4f6)}
+.cs-group-hd svg{flex-shrink:0;transition:transform .2s}
+.cs-group-hd.open svg{transform:rotate(180deg)}
+.cs-group-items{display:none;padding:0 0 4px 0}
+.cs-group-items.open{display:block}
+.cs-group-items .cs-flat-item{padding-left:26px;font-size:13px}
 .filter-chips-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}
 .filter-chips-row:empty{display:none;margin-top:0}
 .fchip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px 5px 12px;border-radius:100px;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:opacity .15s}
@@ -1101,9 +1119,13 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
           <button class="tf-btn" id="tfKysis" onclick="filterType('kysis')">Kỹ sư</button>
         </div>
         <div class="filter-select-row">
-          <select id="nganhSelect" class="filter-select" onchange="setFilterNganh(this.value)">
-            <option value="">Ngành nghề</option>
-          </select>
+          <div class="cs-wrap" id="nganhSelectWrap">
+            <button class="cs-trigger" id="nganhTrigger" onclick="toggleNganhDrop(event)">
+              <span class="cs-trigger-label" id="nganhLabel">Ngành nghề</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cs-panel" id="nganhPanel"></div>
+          </div>
           <select id="khuvucSelect" class="filter-select" onchange="setFilterPref(this.value)">
             <option value="">Khu vực</option>
             <option value="Hokkaido">Hokkaido (北海道)</option>
@@ -1831,11 +1853,33 @@ function doSearch(val) {
 function setFilterNganh(val, skipSelect) {
   currentCat = val || null;
   currentPage = 1;
-  const sel = document.getElementById('nganhSelect');
-  if(sel && !skipSelect) sel.value = val || '';
-  if(sel) sel.classList.toggle('has-value', !!val);
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) trigger.classList.toggle('has-value', !!val);
+  if(label) label.textContent = val || 'Ngành nghề';
+  document.querySelectorAll('#nganhPanel .cs-flat-item').forEach(b => b.classList.toggle('cs-selected', b.dataset.val === val));
   document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
   renderJobs();
+}
+function toggleNganhDrop(e) {
+  e.stopPropagation();
+  const panel = document.getElementById('nganhPanel');
+  const trigger = document.getElementById('nganhTrigger');
+  const isOpen = panel.classList.toggle('open');
+  trigger.classList.toggle('open', isOpen);
+}
+function closeNganhDrop() {
+  document.getElementById('nganhPanel')?.classList.remove('open');
+  document.getElementById('nganhTrigger')?.classList.remove('open');
+}
+function toggleNganhGroup(el) {
+  const items = el.nextElementSibling;
+  const isOpen = items.classList.toggle('open');
+  el.classList.toggle('open', isOpen);
+}
+function selectNganhItem(val) {
+  setFilterNganh(val);
+  closeNganhDrop();
 }
 
 function setFilterPref(val, skipSelect) {
@@ -1862,32 +1906,26 @@ function renderFilterChips() {
   row.innerHTML = chips.join('');
 }
 
+function buildNganhPanelHTML(groups) {
+  const chevron = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
+  return groups.map(({g,items}) =>
+    items.length === 1
+      ? `<button class="cs-flat-item" data-val="${items[0]}" onclick="selectNganhItem('${items[0]}')">${items[0]}</button>`
+      : `<button class="cs-group-hd" onclick="toggleNganhGroup(this)"><span>${g}</span>${chevron}</button>
+         <div class="cs-group-items">${items.map(v=>`<button class="cs-flat-item" data-val="${v}" onclick="selectNganhItem('${v}')">${v}</button>`).join('')}</div>`
+  ).join('');
+}
 function populateNganhSelect(type) {
-  const sel = document.getElementById('nganhSelect');
-  if(!sel) return;
+  const panel = document.getElementById('nganhPanel');
+  if(!panel) return;
   const t = type || currentType || 'all';
   if(t === 'kysis') {
-    sel.innerHTML = '<option value="">Ngành nghề</option>' +
-      NGANH_KYSIS_GROUPS.map(({g,items}) =>
-        `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
-      ).join('');
+    panel.innerHTML = buildNganhPanelHTML(NGANH_KYSIS_GROUPS);
   } else if(t === 'viet' || t === 'nhat') {
-    sel.innerHTML = '<option value="">Ngành nghề</option>' +
-      NGANH_TOKUTEI_GROUPS.map(({g,items}) =>
-        items.length === 1
-          ? `<option value="${items[0]}">${items[0]}</option>`
-          : `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
-      ).join('');
+    panel.innerHTML = buildNganhPanelHTML(NGANH_TOKUTEI_GROUPS);
   } else {
-    sel.innerHTML = '<option value="">Ngành nghề</option>' +
-      NGANH_TOKUTEI_GROUPS.map(({g,items}) =>
-        items.length === 1
-          ? `<option value="${items[0]}">${items[0]}</option>`
-          : `<optgroup label="${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
-      ).join('') +
-      NGANH_KYSIS_GROUPS.map(({g,items}) =>
-        `<optgroup label="Kỹ sư — ${g}">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</optgroup>`
-      ).join('');
+    panel.innerHTML = buildNganhPanelHTML(NGANH_TOKUTEI_GROUPS) +
+      buildNganhPanelHTML(NGANH_KYSIS_GROUPS.map(({g,items}) => ({g:`Kỹ sư — ${g}`,items})));
   }
 }
 function clearSearch() {
@@ -1910,8 +1948,11 @@ function clearAllFilters() {
   if(inp) inp.value = '';
   const clr = document.getElementById('searchClear');
   if(clr) clr.classList.remove('show');
-  const ns = document.getElementById('nganhSelect');
-  if(ns) { ns.value = ''; ns.classList.remove('has-value'); }
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) { trigger.classList.remove('has-value','open'); }
+  if(label) label.textContent = 'Ngành nghề';
+  closeNganhDrop();
   const ks = document.getElementById('khuvucSelect');
   if(ks) { ks.value = ''; ks.classList.remove('has-value'); }
   document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('on-all','on-viet','on-nhat','on-kysis'));
@@ -2173,8 +2214,11 @@ function backToGroups() {
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   document.getElementById('groupGrid').style.display = 'grid';
   document.getElementById('subcatLevel').style.display = 'none';
-  const ns = document.getElementById('nganhSelect');
-  if(ns) { ns.value = ''; ns.classList.remove('has-value'); }
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) { trigger.classList.remove('has-value','open'); }
+  if(label) label.textContent = 'Ngành nghề';
+  closeNganhDrop();
   updateGroupCounts();
   renderJobs();
 }
@@ -2197,8 +2241,11 @@ function filterType(type) {
   const el = document.getElementById(map[type]);
   if(el) el.classList.add(cls[type]);
   populateNganhSelect(type);
-  const ns = document.getElementById('nganhSelect');
-  if(ns) { ns.value = ''; ns.classList.remove('has-value'); }
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) { trigger.classList.remove('has-value','open'); }
+  if(label) label.textContent = 'Ngành nghề';
+  closeNganhDrop();
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   updateCatCounts();
   renderJobs();
@@ -2208,8 +2255,10 @@ function filterCat(cat) {
   currentCat = (currentCat === cat) ? null : cat;
   currentPage = 1;
   document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
-  const ns = document.getElementById('nganhSelect');
-  if(ns) { ns.value = currentCat || ''; ns.classList.toggle('has-value', !!currentCat); }
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) trigger.classList.toggle('has-value', !!currentCat);
+  if(label) label.textContent = currentCat || 'Ngành nghề';
   renderJobs();
   if(currentCat) setTimeout(() => document.getElementById('filterBar')?.scrollIntoView({behavior:'smooth', block:'start'}), 80);
 }
@@ -3194,6 +3243,7 @@ function adminSaveArticle() {
   initSampleArticles();
   renderArticlePreview();
   populateNganhSelect();
+  document.addEventListener('click', () => closeNganhDrop());
   // Supabase: load jobs + real-time
   syncFromSupabase();
   sb.channel('jobs_rt')
