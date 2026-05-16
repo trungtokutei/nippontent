@@ -2097,6 +2097,7 @@ function renderJobs() {
   const countEl = document.getElementById('jobsCount');
   if(countEl) countEl.textContent = totalJobs + ' việc làm';
 
+  renderFilterChips();
   if(!jobs.length) {
     container.innerHTML = `<div class="jobs-empty">
       <div class="ej" style="display:flex;align-items:center;justify-content:center;color:var(--text-3)">${ICONS.briefcase}</div>
@@ -2133,7 +2134,6 @@ function renderJobs() {
     }
   }
 
-  renderFilterChips();
   container.innerHTML = jobs.map(j => {
     const sal = j.salary || 'Liên hệ để biết lương';
     const desc = j.desc ? j.desc.slice(0, 80) + (j.desc.length > 80 ? '…' : '') : '';
