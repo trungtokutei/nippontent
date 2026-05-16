@@ -1910,10 +1910,30 @@ function buildNganhPanelHTML(groups) {
   const chevron = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
   return groups.map(({g,items}) =>
     items.length === 1
-      ? `<button class="cs-flat-item" data-val="${items[0]}" onclick="selectNganhItem('${items[0]}')">${items[0]}</button>`
-      : `<button class="cs-group-hd" onclick="toggleNganhGroup(this)"><span>${g}</span>${chevron}</button>
-         <div class="cs-group-items">${items.map(v=>`<button class="cs-flat-item" data-val="${v}" onclick="selectNganhItem('${v}')">${v}</button>`).join('')}</div>`
+      ? `<button class="cs-flat-item" data-val="${items[0]}">${items[0]}</button>`
+      : `<button class="cs-group-hd"><span>${g}</span>${chevron}</button>
+         <div class="cs-group-items">${items.map(v=>`<button class="cs-flat-item" data-val="${v}">${v}</button>`).join('')}</div>`
   ).join('');
+}
+function initNganhPanelEvents() {
+  const panel = document.getElementById('nganhPanel');
+  if(!panel) return;
+  panel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const item = e.target.closest('.cs-flat-item');
+    const hd   = e.target.closest('.cs-group-hd');
+    if(item) {
+      const val = item.dataset.val;
+      setFilterNganh(val);
+      closeNganhDrop();
+    } else if(hd) {
+      const groupItems = hd.nextElementSibling;
+      if(groupItems) {
+        const isOpen = groupItems.classList.toggle('open');
+        hd.classList.toggle('open', isOpen);
+      }
+    }
+  });
 }
 function populateNganhSelect(type) {
   const panel = document.getElementById('nganhPanel');
@@ -3243,6 +3263,7 @@ function adminSaveArticle() {
   initSampleArticles();
   renderArticlePreview();
   populateNganhSelect();
+  initNganhPanelEvents();
   document.addEventListener('click', (e) => {
     if(!document.getElementById('nganhSelectWrap')?.contains(e.target)) closeNganhDrop();
   });
