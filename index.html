@@ -220,26 +220,6 @@ nav.scrolled{box-shadow:var(--sh)}
 .step p{font-size:13px;color:var(--text-2)}
 
 /* ── CATEGORIES ── */
-.group-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
-.group-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:36px 24px;text-align:center;cursor:pointer;transition:all .22s;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:inherit}
-.group-card:hover{border-color:var(--primary);box-shadow:var(--sh2);transform:translateY(-3px)}
-.group-ico{margin-bottom:4px;display:flex;align-items:center;justify-content:center;color:var(--primary)}.group-ico svg{width:40px;height:40px;stroke-width:1.5}
-.group-name{font-size:22px;font-weight:800;color:var(--text-1)}
-.group-sub{font-size:13px;color:var(--text-3)}
-.group-count{font-size:13px;font-weight:700;color:var(--primary);background:var(--primary-soft);padding:3px 12px;border-radius:100px;margin-top:4px}
-.subcat-hd{display:flex;align-items:center;gap:16px;margin-bottom:20px;margin-top:8px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-2);transition:all .2s;font-family:inherit}
-.back-btn:hover{border-color:var(--primary);color:var(--primary)}
-.subcat-title{font-size:18px;font-weight:700;color:var(--text-1)}
-.cat-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:0}
-.ccat{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px 10px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:block}
-.ccat:hover{border-color:var(--primary);background:var(--primary-soft);transform:translateY(-2px);box-shadow:var(--sh)}
-.ccat .e{display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--text-3);transition:color .2s}
-.ccat .e svg{width:28px;height:28px;stroke-width:1.75}
-.ccat:hover .e{color:var(--primary)}
-.ccat.active .e{color:var(--primary)}
-.ccat-n{font-size:11px;font-weight:600;color:var(--text-2);line-height:1.3}
-.ccat-c{font-size:10px;color:var(--text-3);margin-top:2px}
 
 /* ── COMPARISON ── */
 .comp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);border:1px solid var(--border);position:relative}
@@ -487,7 +467,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
-  .cat-grid{grid-template-columns:repeat(4,1fr)}
   .ft-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:768px){
@@ -499,7 +478,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   .sitem:last-child{border-right:none}
   .snum{font-size:26px}
   .feat-grid,.steps,.tgrid{grid-template-columns:1fr}
-  .cat-grid{grid-template-columns:repeat(4,1fr)}
   .price-grid{grid-template-columns:1fr}
   .pcard.feat{transform:none}.pcard.feat:hover{transform:translateY(-2px)}
   .ft-grid{grid-template-columns:1fr;gap:24px}
@@ -526,10 +504,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
   .tf-btn{padding:6px 11px;font-size:11px}
 }
 @media(max-width:480px){
-  .cat-grid{grid-template-columns:repeat(3,1fr)}
-  .ccat{padding:14px 6px}
-  .ccat .e svg{width:24px;height:24px}
-  .ccat-n{font-size:10px}
   .mock-tags{display:none}
   .mock-field:nth-child(2){display:none}
   .ctable th,.ctable td{padding:9px 10px;font-size:11px}
@@ -615,8 +589,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .jobs-empty .ej{margin-bottom:12px}
 .jobs-empty p{font-size:15px;font-weight:600;color:var(--text-2);margin-bottom:8px}
 .jobs-empty a{font-size:14px;color:var(--primary);text-decoration:none;font-weight:600}
-.ccat.active{border-color:var(--primary);background:var(--primary-soft)}
-.ccat.active .ccat-n{color:var(--primary)}
 
 /* ── APPLY FORM ── */
 .apply-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:400;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -943,8 +915,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 </nav>
 <div class="mob-menu" id="mobmenu">
   <a href="#hero-search" onclick="document.getElementById('mobmenu').classList.remove('open');document.getElementById('mockTypeTabs').scrollIntoView({behavior:'smooth',block:'center'})">Tìm việc làm</a>
-  <a href="#categories">Danh mục</a>
-  <a href="#thongtin" onclick="document.getElementById('mobmenu').classList.remove('open');openArticles()">Thông tin</a>
+    <a href="#thongtin" onclick="document.getElementById('mobmenu').classList.remove('open');openArticles()">Thông tin</a>
   <a href="https://zalo.me/0386887691" target="_blank" style="color:var(--primary);font-weight:700;border-bottom:none;display:inline-flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.268 2 2 8.044 2 15.5c0 4.197 2.012 7.94 5.152 10.437L6 30l4.34-2.26C11.493 28.226 13.706 28.5 16 28.5c7.732 0 14-6.044 14-13.5S23.732 2 16 2zm1.5 18.3-3.7-4-7.3 4 8-8.5 3.8 4 7.2-4-8 8.5z"/></svg> Liên hệ Zalo →</a>
 </div>
 
@@ -1046,69 +1017,6 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 <!-- CATEGORIES -->
 <section id="categories">
   <div class="container">
-    <div class="sec-hd anim">
-      <h2 class="sec-title">Tìm việc theo ngành nghề</h2>
-      <p class="sec-sub">Lựa chọn công việc phù hợp với visa và chứng chỉ/bằng cấp của bạn</p>
-    </div>
-    <!-- Cấp 1: chọn nhóm -->
-    <div class="group-grid anim" id="groupGrid">
-      <button class="group-card" onclick="selectGroup('tokutei')">
-        <div class="group-ico"><i data-lucide="factory"></i></div>
-        <div class="group-name">Tokutei</div>
-        <div class="group-sub">Thực phẩm · Xây dựng · Điều dưỡng · 17 ngành</div>
-        <div class="group-count" id="gc-tokutei">0 việc</div>
-      </button>
-      <button class="group-card" onclick="selectGroup('kysis')">
-        <div class="group-ico"><i data-lucide="laptop"></i></div>
-        <div class="group-name">Kỹ sư</div>
-        <div class="group-sub">IT · Cơ khí · Điện tử · 13 ngành</div>
-        <div class="group-count" id="gc-kysis">0 việc</div>
-      </button>
-    </div>
-
-    <!-- Cấp 2: ngành con (ẩn cho đến khi chọn nhóm) -->
-    <div id="subcatLevel" style="display:none">
-      <div class="subcat-hd">
-        <button class="back-btn" onclick="backToGroups()">← Quay lại</button>
-        <span class="subcat-title" id="subcatTitle"></span>
-      </div>
-      <!-- Tokutei: 17 ngành -->
-      <div class="cat-grid stag" id="catGridTokutei" style="display:none">
-        <a href="#" class="ccat" data-cat="Chế biến thực phẩm" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="utensils"></i></span><div class="ccat-n">Chế biến thực phẩm</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nhóm ngành 1 (Cơ khí)" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="factory"></i></span><div class="ccat-n">Nhóm ngành 1 (Cơ khí)</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nhóm ngành 2 (Điện tử)" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="cpu"></i></span><div class="ccat-n">Nhóm ngành 2 (Điện tử)</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Xây dựng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="hard-hat"></i></span><div class="ccat-n">Xây dựng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Điều dưỡng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="heart-pulse"></i></span><div class="ccat-n">Điều dưỡng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nhà hàng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="chef-hat"></i></span><div class="ccat-n">Nhà hàng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Vệ sinh tòa nhà" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="sparkles"></i></span><div class="ccat-n">Vệ sinh tòa nhà</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Bảo dưỡng ô tô" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="car"></i></span><div class="ccat-n">Bảo dưỡng ô tô</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nông nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="sprout"></i></span><div class="ccat-n">Nông nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Lưu trú / Khách sạn" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="building-2"></i></span><div class="ccat-n">Lưu trú / Khách sạn</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Ngư nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="fish"></i></span><div class="ccat-n">Ngư nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Đóng tàu" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="anchor"></i></span><div class="ccat-n">Đóng tàu</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Hàng không" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="plane"></i></span><div class="ccat-n">Hàng không</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Vận tải" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="truck"></i></span><div class="ccat-n">Vận tải</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Lâm nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="tree-pine"></i></span><div class="ccat-n">Lâm nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="May" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="scissors"></i></span><div class="ccat-n">May</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="In ấn" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="printer"></i></span><div class="ccat-n">In ấn</div><div class="ccat-c">0 việc</div></a>
-      </div>
-      <!-- Kỹ sư: 13 ngành / 4 nhóm -->
-      <div class="cat-grid stag" id="catGridKysis" style="display:none">
-        <a href="#" class="ccat" data-cat="Cơ khí" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="cog"></i></span><div class="ccat-n">Cơ khí</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Điện - Điện tử" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="zap"></i></span><div class="ccat-n">Điện - Điện tử</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Xây dựng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="hard-hat"></i></span><div class="ccat-n">Xây dựng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Hóa học & Vật liệu" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="flask-conical"></i></span><div class="ccat-n">Hóa học & Vật liệu</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Ô tô" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="car"></i></span><div class="ccat-n">Ô tô</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Lập trình viên" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="laptop"></i></span><div class="ccat-n">Lập trình viên</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Kỹ sư hệ thống / Mạng" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="server"></i></span><div class="ccat-n">Hệ thống / Mạng</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="AI & Data Science" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="brain"></i></span><div class="ccat-n">AI & Data Science</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Chế biến thực phẩm" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="utensils"></i></span><div class="ccat-n">Chế biến thực phẩm</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Nông nghiệp" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="sprout"></i></span><div class="ccat-n">Nông nghiệp</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Phiên dịch / Thông dịch" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="languages"></i></span><div class="ccat-n">Phiên dịch</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Xuất nhập khẩu" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="package"></i></span><div class="ccat-n">Xuất nhập khẩu</div><div class="ccat-c">0 việc</div></a>
-        <a href="#" class="ccat" data-cat="Quản trị kinh doanh / Marketing" onclick="event.preventDefault();filterCat(this.dataset.cat)"><span class="e"><i data-lucide="trending-up"></i></span><div class="ccat-n">Kinh doanh / Marketing</div><div class="ccat-c">0 việc</div></a>
-      </div>
-    </div>
     <div class="jobs-section">
       <!-- FILTER BAR -->
       <div class="filter-bar" id="filterBar">
@@ -1828,7 +1736,7 @@ async function syncFromSupabase() {
     const { data, error } = await sb.from('jobs').select('*').order('updatedAt', { ascending: false });
     if (data && !error) {
       localStorage.setItem(STORE_KEY, JSON.stringify(data));
-      updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs(); updateCatCounts();
+      updateStats(); renderHeroJobs(); renderJobs();
       if(document.getElementById('adminOverlay')?.classList.contains('open')) {
         renderAdminJobs(); renderAdminSideStats();
       }
@@ -1875,7 +1783,6 @@ const CAT_ICON = {
   'Xuất nhập khẩu':'package','Quản trị kinh doanh / Marketing':'trending-up',
 };
 
-let currentGroup = null; // null | 'tokutei' | 'kysis'
 let currentType = 'all';
 let currentCat = null;
 let currentSearch = '';
@@ -1907,7 +1814,6 @@ function setFilterNganh(val, skipSelect) {
   if(trigger) trigger.classList.toggle('has-value', !!val);
   if(label) label.textContent = val || 'Ngành nghề';
   document.querySelectorAll('#nganhPanel .cs-flat-item').forEach(b => b.classList.toggle('cs-selected', b.dataset.val === val));
-  document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
   renderJobs();
 }
 function toggleNganhDrop(e) {
@@ -2062,7 +1968,6 @@ function clearAllFilters() {
   document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('on-all','on-viet','on-nhat','on-kysis'));
   const tfAll = document.getElementById('tfAll');
   if(tfAll) tfAll.classList.add('on-all');
-  document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   renderJobs();
 }
 
@@ -2078,18 +1983,6 @@ function updateStats() {
   if(sv) sv.textContent = jobs.filter(j => j.type === 'viet' || j.type === 'both').length;
   if(sn) sn.textContent = jobs.filter(j => j.type === 'nhat' || j.type === 'both').length;
   if(sk) sk.textContent = jobs.filter(j => j.type === 'kysis').length;
-  updateGroupCounts();
-}
-
-function updateCatCounts() {
-  let jobs = getJobs().filter(j => j.status === 'active');
-  if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
-  else if(currentGroup === 'tokutei') jobs = jobs.filter(j => j.type !== 'kysis');
-  document.querySelectorAll('.ccat[data-cat]').forEach(el => {
-    const count = jobs.filter(j => (j.category||'').toLowerCase().includes(el.dataset.cat.toLowerCase())).length;
-    const countEl = el.querySelector('.ccat-c');
-    if(countEl) countEl.textContent = count + ' việc';
-  });
 }
 
 const FLAG_VN_SVG = (w,h) => `<svg viewBox="0 0 3 2" style="width:${w}px;height:${h}px;border-radius:4px;display:block;border:1px solid rgba(0,0,0,.08)" xmlns="http://www.w3.org/2000/svg"><rect width="3" height="2" fill="#DA251D"/><polygon points="1.5,0.38 1.66,0.88 2.15,0.88 1.74,1.16 1.9,1.65 1.5,1.37 1.1,1.65 1.26,1.16 0.85,0.88 1.34,0.88" fill="#FFCD00"/></svg>`;
@@ -2152,8 +2045,6 @@ function renderJobs() {
   if(currentType === 'viet') jobs = jobs.filter(j => j.type === 'viet' || j.type === 'both');
   else if(currentType === 'nhat') jobs = jobs.filter(j => j.type === 'nhat' || j.type === 'both');
   else if(currentType === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
-  else if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
-  else if(currentGroup === 'tokutei') jobs = jobs.filter(j => j.type !== 'kysis');
   if(currentCat) jobs = jobs.filter(j => jobMatchesCat(j.category||'', currentCat));
   if(currentPref) {
     const REGIONS={'Hokkaido':['Hokkaido'],'Tohoku':['Aomori','Iwate','Miyagi','Akita','Yamagata','Fukushima'],'Kanto':['Ibaraki','Tochigi','Gunma','Saitama','Chiba','Tokyo','Kanagawa'],'Chubu':['Niigata','Toyama','Ishikawa','Fukui','Yamanashi','Nagano','Shizuoka','Aichi','Mie'],'Kansai':['Shiga','Kyoto','Osaka','Hyogo','Nara','Wakayama'],'Chugoku':['Tottori','Shimane','Okayama','Hiroshima','Yamaguchi'],'Shikoku':['Tokushima','Kagawa','Ehime','Kochi'],'Kyushu':['Fukuoka','Saga','Nagasaki','Kumamoto','Oita','Miyazaki','Kagoshima'],'Okinawa':['Okinawa']};
@@ -2255,15 +2146,11 @@ function renderJobs() {
 
 function scrollToJob(id) {
   // Reset tất cả filter
-  currentGroup = null;
   currentCat = null;
   currentSearch = '';
   currentPref = null;
   const inp = document.getElementById('searchInput');
   if(inp) inp.value = '';
-  document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
-  document.getElementById('groupGrid').style.display = 'grid';
-  document.getElementById('subcatLevel').style.display = 'none';
 
   // Tìm vị trí job trong danh sách để xác định trang (sort phải khớp renderJobs)
   const allJobs = getJobs().filter(j => j.status === 'active');
@@ -2304,44 +2191,6 @@ function getJobFlagHTML(type) {
   return `<div style="width:48px;height:32px;flex-shrink:0;background:#e8f2ee;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid rgba(53,104,84,.15)">🎓</div>`;
 }
 
-function selectGroup(group) {
-  currentGroup = group;
-  currentCat = null;
-  currentPage = 1;
-  document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
-  document.getElementById('groupGrid').style.display = 'none';
-  document.getElementById('subcatLevel').style.display = 'block';
-  document.getElementById('catGridTokutei').style.display = group === 'tokutei' ? 'grid' : 'none';
-  document.getElementById('catGridKysis').style.display = group === 'kysis' ? 'grid' : 'none';
-  document.getElementById('subcatTitle').textContent = group === 'tokutei' ? 'Tokutei' : 'Kỹ sư';
-  updateCatCounts();
-  renderJobs();
-}
-
-function backToGroups() {
-  currentGroup = null;
-  currentCat = null;
-  currentType = 'all';
-  currentPage = 1;
-  document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
-  document.getElementById('groupGrid').style.display = 'grid';
-  document.getElementById('subcatLevel').style.display = 'none';
-  const trigger = document.getElementById('nganhTrigger');
-  const label = document.getElementById('nganhLabel');
-  if(trigger) { trigger.classList.remove('has-value','open'); }
-  if(label) label.textContent = 'Ngành nghề';
-  closeNganhDrop();
-  updateGroupCounts();
-  renderJobs();
-}
-
-function updateGroupCounts() {
-  const jobs = getJobs().filter(j => j.status === 'active');
-  const gt = document.getElementById('gc-tokutei');
-  const gk = document.getElementById('gc-kysis');
-  if(gt) gt.textContent = jobs.filter(j => j.type !== 'kysis').length + ' việc';
-  if(gk) gk.textContent = jobs.filter(j => j.type === 'kysis').length + ' việc';
-}
 
 function filterType(type) {
   currentType = type;
@@ -2358,21 +2207,7 @@ function filterType(type) {
   if(trigger) { trigger.classList.remove('has-value','open'); }
   if(label) label.textContent = 'Ngành nghề';
   closeNganhDrop();
-  document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
-  updateCatCounts();
   renderJobs();
-}
-
-function filterCat(cat) {
-  currentCat = (currentCat === cat) ? null : cat;
-  currentPage = 1;
-  document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
-  const trigger = document.getElementById('nganhTrigger');
-  const label = document.getElementById('nganhLabel');
-  if(trigger) trigger.classList.toggle('has-value', !!currentCat);
-  if(label) label.textContent = currentCat || 'Ngành nghề';
-  renderJobs();
-  if(currentCat) setTimeout(() => document.getElementById('filterBar')?.scrollIntoView({behavior:'smooth', block:'start'}), 80);
 }
 
 // ── MODAL ──
@@ -2949,7 +2784,7 @@ async function syncFromGSheet() {
     const { error: sbErr } = await sb.from('jobs').insert(newJobs);
     const manual = getJobs().filter(j=>!j.id.startsWith('gs_'));
     saveJobs([...manual,...newJobs]);
-    renderAdminJobs(); renderAdminSideStats(); updateCatCounts(); renderJobs(); renderHeroJobs();
+    renderAdminJobs(); renderAdminSideStats(); renderJobs(); renderHeroJobs();
     if(sbErr) statusEl.textContent=`⚠️ Đã lưu local (${newJobs.length} jobs) nhưng lỗi Supabase: ${sbErr.message}`;
     else statusEl.textContent=`✅ Đã đồng bộ ${newJobs.length} việc làm lên Supabase thành công!`;
   } catch(e) {
@@ -3145,7 +2980,7 @@ async function adminBulkDelete() {
   adminSelectedIds.clear();
   renderAdminJobs();
   renderAdminSideStats();
-  updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs();
+  updateStats(); renderHeroJobs(); renderJobs();
 }
 
 async function adminToggleJobStatus(id) {
@@ -3158,7 +2993,7 @@ async function adminToggleJobStatus(id) {
   job.status = newStatus;
   saveJobs(jobs);
   renderAdminJobs();
-  updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs();
+  updateStats(); renderHeroJobs(); renderJobs();
 }
 
 function adminShowJobForm(id) {
@@ -3206,7 +3041,7 @@ async function adminDeleteJob(id) {
   saveJobs(getJobs().filter(j => j.id !== id));
   renderAdminJobs();
   renderAdminSideStats();
-  updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs();
+  updateStats(); renderHeroJobs(); renderJobs();
 }
 
 async function adminSaveJob() {
@@ -3243,7 +3078,7 @@ async function adminSaveJob() {
   }
   saveJobs(jobs);
   renderAdminSideStats();
-  updateStats(); updateGroupCounts(); renderHeroJobs(); renderJobs();
+  updateStats(); renderHeroJobs(); renderJobs();
   adminNav('jobs-list');
 }
 
@@ -3347,10 +3182,8 @@ function adminSaveArticle() {
 // Init
 (function loadSite() {
   updateStats();
-  updateGroupCounts();
   renderHeroJobs();
   renderJobs();
-  updateCatCounts();
   // Restore login state
   const savedUser = getCurrentUser();
   if(savedUser) { renderNavUser(savedUser); updateSavedCount(); }
