@@ -2936,7 +2936,8 @@ async function syncFromGSheet() {
       gender:g(r[7]), workHours:g(r[8]),
       daysOff:g(r[9]), overtime:g(r[10]), raise:g(r[11]),
       bonus:g(r[12]), housing:g(r[13]), desc:g(r[14]),
-      status:g(r[15])||'active'
+      status:g(r[15])||'active',
+      updatedAt:g(r[19])||null
     })).filter(j=>j.title);
     if(!newJobs.length){statusEl.textContent='⚠️ Không có job nào (cột B - title bị trống?)';return;}
     // Push lên Supabase để mọi người dùng đều thấy
