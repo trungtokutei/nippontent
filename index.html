@@ -419,6 +419,26 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .filter-select{flex:1;min-width:130px;padding:9px 28px 9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;color:var(--text-1);background:#fff;outline:none;cursor:pointer;transition:border .2s;font-family:inherit;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .filter-select:focus{border-color:var(--primary)}
 .filter-select.has-value{border-color:var(--primary);color:var(--primary)}
+.cs-wrap{position:relative;flex:1;min-width:130px}
+.cs-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px 9px 12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;font-family:inherit;text-align:left;transition:border .2s,color .2s;white-space:nowrap;overflow:hidden}
+.cs-trigger.has-value{border-color:var(--primary);color:var(--primary)}
+.cs-trigger-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cs-trigger svg{flex-shrink:0;transition:transform .2s}
+.cs-trigger.open svg{transform:rotate(180deg)}
+.cs-panel{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;max-width:320px;background:#fff;border:1.5px solid var(--border);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.1);z-index:200;display:none;max-height:340px;overflow-y:auto}
+.cs-panel.open{display:block}
+.cs-ico{width:15px;height:15px;flex-shrink:0;stroke-width:1.8;color:var(--text-3)}
+.cs-flat-item{display:flex;align-items:center;gap:7px;width:100%;padding:9px 16px;background:none;border:none;text-align:left;font-size:13px;color:var(--text-1);cursor:pointer;font-family:inherit;white-space:nowrap}
+.cs-flat-item:hover,.cs-flat-item:focus{background:var(--surface-alt,#f4f4f6);outline:none}
+.cs-flat-item.cs-selected{color:var(--primary);font-weight:600}
+.cs-group-hd{display:flex;align-items:center;gap:7px;width:100%;padding:9px 12px 9px 16px;background:none;border:none;text-align:left;font-size:11px;font-weight:700;color:var(--text-2);cursor:pointer;font-family:inherit;letter-spacing:.03em;text-transform:uppercase}
+.cs-group-hd span:not(.cs-ico){flex:1}
+.cs-group-hd:hover{background:var(--surface-alt,#f4f4f6)}
+.cs-group-hd svg{flex-shrink:0;margin-left:auto;transition:transform .2s}
+.cs-group-hd.open svg{transform:rotate(180deg)}
+.cs-group-items{display:none;padding:0 0 4px 0}
+.cs-group-items.open{display:block}
+.cs-group-items .cs-flat-item{padding-left:26px;font-size:13px}
 .filter-chips-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}
 .filter-chips-row:empty{display:none;margin-top:0}
 .fchip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px 5px 12px;border-radius:100px;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:opacity .15s}
@@ -427,6 +447,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
 .fchip-viet{background:#e8f8ef;color:var(--viet,#1eb35c)}
 .fchip-nhat{background:#e8e8ff;color:var(--nhat,#2D2CDB)}
 .fchip-kysis{background:#e0f4ff;color:#0ea5e9}
+.fchip-cat{background:var(--primary-soft,#e8f2ee);color:var(--primary,#356854)}
 .fchip-pref{background:#fff3e0;color:#e07000}
 .fchip-x{font-size:14px;opacity:.55;margin-left:2px;line-height:1}
 .clear-all-btn{background:none;border:1.5px solid var(--border);border-radius:100px;padding:5px 12px;font-size:12px;color:var(--text-3);cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap;transition:all .15s}
@@ -1103,6 +1124,13 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
           <button class="tf-btn" id="tfKysis" onclick="filterType('kysis')">Kỹ sư</button>
         </div>
         <div class="filter-select-row">
+          <div class="cs-wrap" id="nganhSelectWrap">
+            <button class="cs-trigger" id="nganhTrigger" onclick="toggleNganhDrop(event)">
+              <span class="cs-trigger-label" id="nganhLabel">Ngành nghề</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="cs-panel" id="nganhPanel"></div>
+          </div>
           <select id="khuvucSelect" class="filter-select" onchange="setFilterPref(this.value)">
             <option value="">Khu vực</option>
             <option value="Hokkaido">Hokkaido (北海道)</option>
@@ -1720,6 +1748,55 @@ document.querySelectorAll('.anim,.stag').forEach(el => io.observe(el));
 
 
 // Hero mockup tab switcher
+const NGANH_TOKUTEI_GROUPS = [
+  {g:'Chế biến thực phẩm', items:['Chế biến thực phẩm']},
+  {g:'① Gia công cơ khí - kim loại', items:['Đúc nóng','Đúc lạnh','Dập kim loại','Kim loại tấm','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
+  {g:'② Lắp ráp điện - điện tử', items:['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
+  {g:'③ Xử lý bề mặt kim loại', items:['Mạ điện','Xử lý oxy hóa nhôm (Anodize)']},
+  {g:'Xây dựng', items:['Đường ống','Cốp pha','Phá dỡ','Cốt thép','Sơn xây dựng','Chống thấm','Giàn giáo','Bê tông','Xây trát','San lấp','Ốp lát','Lái máy xây dựng','Hoàn thiện nội thất','Mộc xây dựng','Hoàn thiện ngoại thất','Hàn xây dựng','Điện','Thi công cách nhiệt','Lợp mái']},
+  {g:'Điều dưỡng', items:['Điều dưỡng']},
+  {g:'Nhà hàng', items:['Nhà hàng']},
+  {g:'Nông nghiệp', items:['Nông nghiệp']},
+  {g:'Vệ sinh tòa nhà', items:['Vệ sinh tòa nhà']},
+  {g:'Bảo dưỡng ô tô', items:['Bảo dưỡng ô tô']},
+  {g:'Lưu trú / Khách sạn', items:['Lưu trú / Khách sạn']},
+  {g:'Ngư nghiệp', items:['Ngư nghiệp']},
+  {g:'Đóng tàu', items:['Đóng tàu']},
+  {g:'Hàng không', items:['Hàng không']},
+  {g:'Vận tải', items:['Vận tải']},
+  {g:'Lâm nghiệp', items:['Lâm nghiệp']},
+  {g:'May', items:['May']},
+  {g:'In ấn', items:['In ấn']},
+];
+const NGANH_KYSIS_GROUPS = [
+  {g:'Kỹ thuật & Sản xuất', items:['Cơ khí','Điện - Điện tử','Xây dựng','Hóa học & Vật liệu','Ô tô']},
+  {g:'Công nghệ thông tin (IT)', items:['Lập trình viên','Kỹ sư hệ thống / Mạng','AI & Data Science']},
+  {g:'Thực phẩm & Nông nghiệp', items:['Chế biến thực phẩm','Nông nghiệp']},
+  {g:'Kinh tế & Ngôn ngữ', items:['Phiên dịch / Thông dịch','Xuất nhập khẩu','Quản trị kinh doanh / Marketing']},
+];
+const NHOM_1_ITEMS = new Set(['Đúc nóng','Đúc lạnh','Dập kim loại','Kim loại tấm','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
+const NHOM_2_ITEMS = new Set(['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
+const NHOM_XD_ITEMS = new Set(['đường ống','cốp pha','phá dỡ','cốt thép','sơn xây dựng','chống thấm','giàn giáo','bê tông','xây trát','san lấp','ốp lát','lái máy xây dựng','hoàn thiện nội thất','mộc xây dựng','hoàn thiện ngoại thất','hàn xây dựng','điện','thi công cách nhiệt','lợp mái']);
+
+function jobMatchesCat(jcat, selectedCat) {
+  if(!jcat || !selectedCat) return false;
+  const jcatLow = jcat.toLowerCase().trim();
+  const selLow = selectedCat.toLowerCase().trim();
+  // Comma-separated: check each part
+  const parts = jcat.split(',').map(s => s.trim().toLowerCase());
+  if(parts.some(p => p === selLow)) return true;
+  // Group-level match: Nhóm 1 / Nhóm 2 / Nhóm 1+2
+  const inNhom1 = NHOM_1_ITEMS.has(selectedCat);
+  const inNhom2 = NHOM_2_ITEMS.has(selectedCat);
+  if(jcatLow === 'nhóm 1' && inNhom1) return true;
+  if(jcatLow === 'nhóm 2' && inNhom2) return true;
+  if(jcatLow === 'nhóm 1+2' && (inNhom1 || inNhom2)) return true;
+  // Xây dựng parent: khi filter = "xây dựng", khớp cả các ngành phụ XD
+  if(selLow === 'xây dựng' && parts.some(p => NHOM_XD_ITEMS.has(p))) return true;
+  // Xây dựng sub: khi filter là ngành phụ XD, khớp job được tag "xây dựng" (chung)
+  if(NHOM_XD_ITEMS.has(selLow) && parts.some(p => p === 'xây dựng')) return true;
+  return false;
+}
 
 function renderJobCat(cat) {
   if(!cat) return '';
@@ -1800,6 +1877,7 @@ const CAT_ICON = {
 
 let currentGroup = null; // null | 'tokutei' | 'kysis'
 let currentType = 'all';
+let currentCat = null;
 let currentSearch = '';
 let currentPref = null;
 let currentPage = 1;
@@ -1821,6 +1899,37 @@ function doSearch(val) {
 }
 
 
+function setFilterNganh(val, skipSelect) {
+  currentCat = val || null;
+  currentPage = 1;
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) trigger.classList.toggle('has-value', !!val);
+  if(label) label.textContent = val || 'Ngành nghề';
+  document.querySelectorAll('#nganhPanel .cs-flat-item').forEach(b => b.classList.toggle('cs-selected', b.dataset.val === val));
+  document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
+  renderJobs();
+}
+function toggleNganhDrop(e) {
+  e.stopPropagation();
+  const panel = document.getElementById('nganhPanel');
+  const trigger = document.getElementById('nganhTrigger');
+  const isOpen = panel.classList.toggle('open');
+  trigger.classList.toggle('open', isOpen);
+}
+function closeNganhDrop() {
+  document.getElementById('nganhPanel')?.classList.remove('open');
+  document.getElementById('nganhTrigger')?.classList.remove('open');
+}
+function toggleNganhGroup(el) {
+  const items = el.nextElementSibling;
+  const isOpen = items.classList.toggle('open');
+  el.classList.toggle('open', isOpen);
+}
+function selectNganhItem(val) {
+  setFilterNganh(val);
+  closeNganhDrop();
+}
 
 function setFilterPref(val, skipSelect) {
   currentPref = val || null;
@@ -1840,11 +1949,89 @@ function renderFilterChips() {
     const lbl = currentType==='viet'?'Đầu Việt':currentType==='nhat'?'Đầu Nhật':'Kỹ sư';
     chips.push(`<button class="fchip fchip-${currentType}" onclick="filterType('all')">${lbl} <span class="fchip-x">×</span></button>`);
   }
+  if(currentCat) chips.push(`<button class="fchip fchip-cat" onclick="setFilterNganh('')">${currentCat} <span class="fchip-x">×</span></button>`);
   if(currentPref) chips.push(`<button class="fchip fchip-pref" onclick="setFilterPref('')">${currentPref} <span class="fchip-x">×</span></button>`);
   if(chips.length > 1) chips.push(`<button class="clear-all-btn" onclick="clearAllFilters()">Xóa tất cả</button>`);
   row.innerHTML = chips.join('');
 }
 
+const NGANH_ICON_MAP = {
+  'Chế biến thực phẩm':'utensils',
+  '① Gia công cơ khí - kim loại':'factory',
+  '② Lắp ráp điện - điện tử':'cpu',
+  '③ Xử lý bề mặt kim loại':'layers',
+  'Xây dựng':'hard-hat',
+  'Đường ống':'circle-dot','Cốp pha':'square','Phá dỡ':'hammer','Cốt thép':'grip',
+  'Sơn xây dựng':'paintbrush','Chống thấm':'droplets','Giàn giáo':'network',
+  'Bê tông':'box','Xây trát':'layers','San lấp':'mountain','Ốp lát':'layout-grid',
+  'Lái máy xây dựng':'truck','Hoàn thiện nội thất':'home','Mộc xây dựng':'axe',
+  'Hoàn thiện ngoại thất':'building','Hàn xây dựng':'flame','Điện':'zap',
+  'Thi công cách nhiệt':'thermometer','Lợp mái':'tent',
+  'Điều dưỡng':'heart-pulse','Nhà hàng':'chef-hat',
+  'Nông nghiệp':'sprout','Vệ sinh tòa nhà':'sparkles','Bảo dưỡng ô tô':'car',
+  'Lưu trú / Khách sạn':'building-2','Ngư nghiệp':'fish','Đóng tàu':'anchor',
+  'Hàng không':'plane','Vận tải':'truck','Lâm nghiệp':'tree-pine','May':'scissors','In ấn':'printer',
+  'Đúc nóng':'flame','Đúc lạnh':'snowflake','Dập kim loại':'hammer','Kim loại tấm':'square','Tekko':'wrench',
+  'Rèn':'hammer','Gia công cơ khí':'cog','Hoàn thiện sản phẩm':'sparkles',
+  'Đúc nhựa':'box','Hàn':'zap','Sơn kim loại':'paintbrush-vertical',
+  'Lắp ráp thiết bị điện':'plug','Kiểm tra máy móc':'scan-line','Bảo trì máy móc':'wrench',
+  'Đóng gói công nghiệp':'package','Lắp ráp thiết bị điện tử':'circuit-board',
+  'Sản xuất bảng mạch in (PCB)':'circuit-board','Mạ điện':'droplets','Xử lý oxy hóa nhôm (Anodize)':'layers',
+  'Kỹ thuật & Sản xuất':'wrench','Công nghệ thông tin (IT)':'laptop',
+  'Thực phẩm & Nông nghiệp':'sprout','Kinh tế & Ngôn ngữ':'trending-up',
+  'Cơ khí':'cog','Điện - Điện tử':'zap','Hóa học & Vật liệu':'flask-conical','Ô tô':'car',
+  'Lập trình viên':'laptop','Kỹ sư hệ thống / Mạng':'server','AI & Data Science':'brain',
+  'Phiên dịch / Thông dịch':'languages','Xuất nhập khẩu':'package',
+  'Quản trị kinh doanh / Marketing':'trending-up',
+};
+function getNganhIcon(name) {
+  const key = name.replace('Kỹ sư — ','');
+  const ico = NGANH_ICON_MAP[key];
+  return ico ? `<i data-lucide="${ico}" class="cs-ico"></i>` : '';
+}
+function buildNganhPanelHTML(groups) {
+  const chevron = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
+  return groups.map(({g,items}) =>
+    items.length === 1
+      ? `<button class="cs-flat-item" data-val="${items[0]}">${getNganhIcon(items[0])}${items[0]}</button>`
+      : `<button class="cs-group-hd">${getNganhIcon(g)}<span>${g}</span>${chevron}</button>
+         <div class="cs-group-items">${items.map(v=>`<button class="cs-flat-item" data-val="${v}">${v}</button>`).join('')}</div>`
+  ).join('');
+}
+function initNganhPanelEvents() {
+  const panel = document.getElementById('nganhPanel');
+  if(!panel) return;
+  panel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const item = e.target.closest('.cs-flat-item');
+    const hd   = e.target.closest('.cs-group-hd');
+    if(item) {
+      const val = item.dataset.val;
+      setFilterNganh(val);
+      closeNganhDrop();
+    } else if(hd) {
+      const groupItems = hd.nextElementSibling;
+      if(groupItems) {
+        const isOpen = groupItems.classList.toggle('open');
+        hd.classList.toggle('open', isOpen);
+      }
+    }
+  });
+}
+function populateNganhSelect(type) {
+  const panel = document.getElementById('nganhPanel');
+  if(!panel) return;
+  const t = type || currentType || 'all';
+  if(t === 'kysis') {
+    panel.innerHTML = buildNganhPanelHTML(NGANH_KYSIS_GROUPS);
+  } else if(t === 'viet' || t === 'nhat') {
+    panel.innerHTML = buildNganhPanelHTML(NGANH_TOKUTEI_GROUPS);
+  } else {
+    panel.innerHTML = buildNganhPanelHTML(NGANH_TOKUTEI_GROUPS) +
+      buildNganhPanelHTML(NGANH_KYSIS_GROUPS.map(({g,items}) => ({g:`Kỹ sư — ${g}`,items})));
+  }
+  if(window.lucide) lucide.createIcons();
+}
 function clearSearch() {
   currentSearch = '';
   currentPage = 1;
@@ -1858,12 +2045,18 @@ function clearSearch() {
 function clearAllFilters() {
   currentSearch = '';
   currentType = 'all';
+  currentCat = null;
   currentPref = null;
   currentPage = 1;
   const inp = document.getElementById('searchInput');
   if(inp) inp.value = '';
   const clr = document.getElementById('searchClear');
   if(clr) clr.classList.remove('show');
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) { trigger.classList.remove('has-value','open'); }
+  if(label) label.textContent = 'Ngành nghề';
+  closeNganhDrop();
   const ks = document.getElementById('khuvucSelect');
   if(ks) { ks.value = ''; ks.classList.remove('has-value'); }
   document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('on-all','on-viet','on-nhat','on-kysis'));
@@ -1961,6 +2154,7 @@ function renderJobs() {
   else if(currentType === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
   else if(currentGroup === 'kysis') jobs = jobs.filter(j => j.type === 'kysis');
   else if(currentGroup === 'tokutei') jobs = jobs.filter(j => j.type !== 'kysis');
+  if(currentCat) jobs = jobs.filter(j => jobMatchesCat(j.category||'', currentCat));
   if(currentPref) {
     const REGIONS={'Hokkaido':['Hokkaido'],'Tohoku':['Aomori','Iwate','Miyagi','Akita','Yamagata','Fukushima'],'Kanto':['Ibaraki','Tochigi','Gunma','Saitama','Chiba','Tokyo','Kanagawa'],'Chubu':['Niigata','Toyama','Ishikawa','Fukui','Yamanashi','Nagano','Shizuoka','Aichi','Mie'],'Kansai':['Shiga','Kyoto','Osaka','Hyogo','Nara','Wakayama'],'Chugoku':['Tottori','Shimane','Okayama','Hiroshima','Yamaguchi'],'Shikoku':['Tokushima','Kagawa','Ehime','Kochi'],'Kyushu':['Fukuoka','Saga','Nagasaki','Kumamoto','Oita','Miyazaki','Kagoshima'],'Okinawa':['Okinawa']};
     const prefList = REGIONS[currentPref];
@@ -1995,7 +2189,7 @@ function renderJobs() {
   if(!jobs.length) {
     container.innerHTML = `<div class="jobs-empty">
       <div class="ej" style="display:flex;align-items:center;justify-content:center;color:var(--text-3)">${ICONS.briefcase}</div>
-      <p>Không tìm thấy việc làm${currentSearch ? ` cho "<strong>${currentSearch}</strong>"` : ''}</p>
+      <p>Không tìm thấy việc làm${currentSearch ? ` cho "<strong>${currentSearch}</strong>"` : currentCat ? ' trong ngành này' : ''}</p>
       <a href="https://zalo.me/0386887691" target="_blank">Nhắn Zalo để hỏi thêm →</a>
     </div>`;
     return;
@@ -2062,6 +2256,7 @@ function renderJobs() {
 function scrollToJob(id) {
   // Reset tất cả filter
   currentGroup = null;
+  currentCat = null;
   currentSearch = '';
   currentPref = null;
   const inp = document.getElementById('searchInput');
@@ -2111,6 +2306,7 @@ function getJobFlagHTML(type) {
 
 function selectGroup(group) {
   currentGroup = group;
+  currentCat = null;
   currentPage = 1;
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   document.getElementById('groupGrid').style.display = 'none';
@@ -2124,11 +2320,17 @@ function selectGroup(group) {
 
 function backToGroups() {
   currentGroup = null;
+  currentCat = null;
   currentType = 'all';
   currentPage = 1;
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   document.getElementById('groupGrid').style.display = 'grid';
   document.getElementById('subcatLevel').style.display = 'none';
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) { trigger.classList.remove('has-value','open'); }
+  if(label) label.textContent = 'Ngành nghề';
+  closeNganhDrop();
   updateGroupCounts();
   renderJobs();
 }
@@ -2143,21 +2345,34 @@ function updateGroupCounts() {
 
 function filterType(type) {
   currentType = type;
+  currentCat = null;
   currentPage = 1;
   document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('on-all','on-viet','on-nhat','on-kysis'));
   const map = {all:'tfAll',viet:'tfViet',nhat:'tfNhat',kysis:'tfKysis'};
   const cls = {all:'on-all',viet:'on-viet',nhat:'on-nhat',kysis:'on-kysis'};
   const el = document.getElementById(map[type]);
   if(el) el.classList.add(cls[type]);
+  populateNganhSelect(type);
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) { trigger.classList.remove('has-value','open'); }
+  if(label) label.textContent = 'Ngành nghề';
+  closeNganhDrop();
   document.querySelectorAll('.ccat').forEach(c => c.classList.remove('active'));
   updateCatCounts();
   renderJobs();
 }
 
 function filterCat(cat) {
+  currentCat = (currentCat === cat) ? null : cat;
   currentPage = 1;
-  document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+  document.querySelectorAll('.ccat').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
+  const trigger = document.getElementById('nganhTrigger');
+  const label = document.getElementById('nganhLabel');
+  if(trigger) trigger.classList.toggle('has-value', !!currentCat);
+  if(label) label.textContent = currentCat || 'Ngành nghề';
   renderJobs();
+  if(currentCat) setTimeout(() => document.getElementById('filterBar')?.scrollIntoView({behavior:'smooth', block:'start'}), 80);
 }
 
 // ── MODAL ──
@@ -3142,6 +3357,11 @@ function adminSaveArticle() {
   // Articles module
   initSampleArticles();
   renderArticlePreview();
+  populateNganhSelect();
+  initNganhPanelEvents();
+  document.addEventListener('click', (e) => {
+    if(!document.getElementById('nganhSelectWrap')?.contains(e.target)) closeNganhDrop();
+  });
   // Supabase: load jobs + real-time
   syncFromSupabase();
   sb.channel('jobs_rt')
