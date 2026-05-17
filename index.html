@@ -16,6 +16,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="vi_VN">
+<meta property="fb:app_id" content="1703487857312915">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hỗ trợ tìm việc làm Tokutei, Kỹ sư 2 đầu Nhật - Việt">
 <meta name="twitter:description" content="Kết nối người Việt với cơ hội việc làm Tokutei và Kỹ sư tại Nhật Bản.">
@@ -953,7 +954,7 @@ footer{background:var(--text-1);color:rgba(255,255,255,.5);padding:52px 0 28px}
     <h1>Nippon Tokutei</h1>
     <p class="hero-sub">Hỗ trợ tìm, đăng ký ứng tuyển các đơn hàng Tokutei, Kỹ sư hai đầu Nhật - Việt</p>
     <div class="hero-acts">
-      <a href="#categories" class="btn btn-outline btn-lg">Xem tất cả việc làm</a>
+      <a href="#filterBar" class="btn btn-outline btn-lg" onclick="event.preventDefault();document.getElementById('filterBar').scrollIntoView({behavior:'smooth'})"><i data-lucide="search"></i>TÌM VIỆC NGAY</a>
     </div>
     <div class="mockup">
       <div class="mock-bar">
@@ -2158,7 +2159,11 @@ function renderJobs() {
     );
   }
 
-  jobs.sort((a, b) => (a.category||'').localeCompare(b.category||'', 'vi') || (a.title||'').localeCompare(b.title||'', 'vi'));
+  jobs.sort((a, b) => {
+    const ta = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+    const tb = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+    return tb - ta;
+  });
 
   const totalJobs = jobs.length;
   const totalPages = Math.ceil(totalJobs / JOBS_PER_PAGE);
@@ -2250,7 +2255,11 @@ function scrollToJob(id) {
 
   // Tìm vị trí job trong danh sách để xác định trang (sort phải khớp renderJobs)
   const allJobs = getJobs().filter(j => j.status === 'active');
-  allJobs.sort((a, b) => (a.category||'').localeCompare(b.category||'', 'vi') || (a.title||'').localeCompare(b.title||'', 'vi'));
+  allJobs.sort((a, b) => {
+    const ta = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+    const tb = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+    return tb - ta;
+  });
   const idx = allJobs.findIndex(j => j.id === id);
   currentPage = idx === -1 ? 1 : Math.ceil((idx + 1) / JOBS_PER_PAGE);
 
