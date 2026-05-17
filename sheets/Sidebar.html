@@ -35,10 +35,6 @@
       padding-bottom: 5px;
       border-bottom: 2px solid #e8f0fe;
     }
-    .mgmt-label {
-      color: #4a3580;
-      border-bottom-color: #ede7ff;
-    }
 
     .field { margin-bottom: 10px; }
 
@@ -191,11 +187,9 @@
   <div class="field">
     <label>Giới tính</label>
     <select id="gender">
-      <option value="Không yêu cầu">Không yêu cầu</option>
       <option value="Nam">Nam</option>
       <option value="Nữ">Nữ</option>
-      <option value="Nam ưu tiên">Nam ưu tiên</option>
-      <option value="Nữ ưu tiên">Nữ ưu tiên</option>
+      <option value="Nam Nữ">Nam Nữ</option>
     </select>
   </div>
 
@@ -246,7 +240,7 @@
   </div>
 
   <div id="mgmt-section" style="display:none">
-    <div class="section-label mgmt-label">Quản lý nội bộ</div>
+    <div class="section-label">Quản lý nội bộ</div>
 
     <div class="field">
       <label>Nguồn</label>
@@ -277,7 +271,12 @@
 <script>
   const TOKUTEI_CATS = [
     'Chế biến thực phẩm','Nhóm ngành 1 (Cơ khí)','Nhóm ngành 2 (Điện tử)',
-    'Xây dựng','Điều dưỡng','Nhà hàng','Vệ sinh tòa nhà','Bảo dưỡng ô tô',
+    'Nhóm ngành 1 & 2 (Cơ khí + Điện tử)',
+    'Xây dựng',
+    'Đường ống','Cốp pha','Phá dỡ','Cốt thép','Sơn xây dựng','Chống thấm','Giàn giáo',
+    'Bê tông','Xây trát','San lấp','Ốp lát','Lái máy xây dựng','Hoàn thiện nội thất',
+    'Mộc xây dựng','Hoàn thiện ngoại thất','Hàn xây dựng','Điện',
+    'Điều dưỡng','Nhà hàng','Vệ sinh tòa nhà','Bảo dưỡng ô tô',
     'Nông nghiệp','Lưu trú / Khách sạn','Ngư nghiệp','Đóng tàu','Hàng không',
     'Vận tải','Lâm nghiệp','May','In ấn',
   ];
@@ -350,7 +349,7 @@
     document.getElementById('type').value     = '';
     document.getElementById('status').value   = 'active';
     document.getElementById('japanese').value = 'Không yêu cầu';
-    document.getElementById('gender').value   = 'Không yêu cầu';
+    document.getElementById('gender').value   = 'Nam Nữ';
     onTypeChange();
   }
 

@@ -1753,7 +1753,7 @@ const NGANH_TOKUTEI_GROUPS = [
   {g:'① Gia công cơ khí - kim loại', items:['Đúc nóng','Đúc lạnh','Dập kim loại','Kim loại tấm','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
   {g:'② Lắp ráp điện - điện tử', items:['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']},
   {g:'③ Xử lý bề mặt kim loại', items:['Mạ điện','Xử lý oxy hóa nhôm (Anodize)']},
-  {g:'Xây dựng', items:['Xây dựng']},
+  {g:'Xây dựng', items:['Xây dựng','Đường ống','Cốp pha','Phá dỡ','Cốt thép','Sơn xây dựng','Chống thấm','Giàn giáo','Bê tông','Xây trát','San lấp','Ốp lát','Lái máy xây dựng','Hoàn thiện nội thất','Mộc xây dựng','Hoàn thiện ngoại thất','Hàn xây dựng','Điện']},
   {g:'Điều dưỡng', items:['Điều dưỡng']},
   {g:'Nhà hàng', items:['Nhà hàng']},
   {g:'Nông nghiệp', items:['Nông nghiệp']},
@@ -1776,6 +1776,7 @@ const NGANH_KYSIS_GROUPS = [
 ];
 const NHOM_1_ITEMS = new Set(['Đúc nóng','Đúc lạnh','Dập kim loại','Kim loại tấm','Tekko','Rèn','Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Hàn','Sơn kim loại','Lắp ráp thiết bị điện','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
 const NHOM_2_ITEMS = new Set(['Gia công cơ khí','Hoàn thiện sản phẩm','Đúc nhựa','Lắp ráp thiết bị điện','Lắp ráp thiết bị điện tử','Sản xuất bảng mạch in (PCB)','Kiểm tra máy móc','Bảo trì máy móc','Đóng gói công nghiệp']);
+const NHOM_XD_ITEMS = new Set(['đường ống','cốp pha','phá dỡ','cốt thép','sơn xây dựng','chống thấm','giàn giáo','bê tông','xây trát','san lấp','ốp lát','lái máy xây dựng','hoàn thiện nội thất','mộc xây dựng','hoàn thiện ngoại thất','hàn xây dựng','điện']);
 
 function jobMatchesCat(jcat, selectedCat) {
   if(!jcat || !selectedCat) return false;
@@ -1790,6 +1791,10 @@ function jobMatchesCat(jcat, selectedCat) {
   if(jcatLow === 'nhóm 1' && inNhom1) return true;
   if(jcatLow === 'nhóm 2' && inNhom2) return true;
   if(jcatLow === 'nhóm 1+2' && (inNhom1 || inNhom2)) return true;
+  // Xây dựng parent: khi filter = "xây dựng", khớp cả các ngành phụ XD
+  if(selLow === 'xây dựng' && parts.some(p => NHOM_XD_ITEMS.has(p))) return true;
+  // Xây dựng sub: khi filter là ngành phụ XD, khớp job được tag "xây dựng" (chung)
+  if(NHOM_XD_ITEMS.has(selLow) && parts.some(p => p === 'xây dựng')) return true;
   return false;
 }
 
@@ -1955,7 +1960,13 @@ const NGANH_ICON_MAP = {
   '① Gia công cơ khí - kim loại':'factory',
   '② Lắp ráp điện - điện tử':'cpu',
   '③ Xử lý bề mặt kim loại':'layers',
-  'Xây dựng':'hard-hat','Điều dưỡng':'heart-pulse','Nhà hàng':'chef-hat',
+  'Xây dựng':'hard-hat',
+  'Đường ống':'circle-dot','Cốp pha':'square','Phá dỡ':'hammer','Cốt thép':'grip',
+  'Sơn xây dựng':'paintbrush','Chống thấm':'droplets','Giàn giáo':'network',
+  'Bê tông':'box','Xây trát':'layers','San lấp':'mountain','Ốp lát':'layout-grid',
+  'Lái máy xây dựng':'truck','Hoàn thiện nội thất':'home','Mộc xây dựng':'axe',
+  'Hoàn thiện ngoại thất':'building','Hàn xây dựng':'flame','Điện':'zap',
+  'Điều dưỡng':'heart-pulse','Nhà hàng':'chef-hat',
   'Nông nghiệp':'sprout','Vệ sinh tòa nhà':'sparkles','Bảo dưỡng ô tô':'car',
   'Lưu trú / Khách sạn':'building-2','Ngư nghiệp':'fish','Đóng tàu':'anchor',
   'Hàng không':'plane','Vận tải':'truck','Lâm nghiệp':'tree-pine','May':'scissors','In ấn':'printer',
